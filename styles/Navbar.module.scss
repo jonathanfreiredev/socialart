@@ -10,6 +10,7 @@
 }
 .container{
     display: flex;
+    justify-content: space-between;
     height: 60px;
     margin: 0 4%;
     position: relative;
@@ -46,7 +47,7 @@
 
 /* Menu */
 .menu{
-    flex-grow: 3;
+    display: flex;
     font-weight: 500;
     @include display-justify-content(flex, flex-end);
     .nav{

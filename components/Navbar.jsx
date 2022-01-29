@@ -4,7 +4,7 @@ import { signOut, useSession } from 'next-auth/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 
-export default function Navbar({title, subtitle, refTitle, firstRef, firstName}){
+export default function Navbar({title, refTitle}){
     const [ session, loading ] = useSession();
     const handleLogout = ()=>{
         signOut({redirect: true})
@@ -16,7 +16,6 @@ export default function Navbar({title, subtitle, refTitle, firstRef, firstName})
                     <a>
                         <h1 className={styles.title}>
                             <strong className={styles.name}>{title}</strong>
-                            <span className={styles.description}>{subtitle}</span>
                         </h1>
                     </a>
                 </Link>
@@ -27,7 +26,7 @@ export default function Navbar({title, subtitle, refTitle, firstRef, firstName})
                         <Link href="https://www.jonathanfreire.com">
                             <a>
                                 <p>
-                                    Home JF.
+                                    Home.
                                 </p>
                             </a>
                         </Link>
@@ -41,17 +40,6 @@ export default function Navbar({title, subtitle, refTitle, firstRef, firstName})
                             </a>
                         </Link>
                     </div>
-                    {firstRef && firstName &&
-                        <div>
-                            <Link href={firstRef}>
-                                <a>
-                                    <p>
-                                        {firstName}
-                                    </p>
-                                </a>
-                            </Link>
-                        </div>
-                    }
                     {session ?
                         <div className={styles.signout}>
                             <div onClick={handleLogout} className={styles.iconLogout}>

@@ -1,9 +1,9 @@
 import Navbar from "./Navbar"
 import Footer from "./Footer"
 
-export default function Layout({children, title, subtitle, refTitle, firstRef, firstName}){
+export default function Layout({children, title, refTitle}){
     return <div>
-        <Navbar title={title} subtitle={subtitle} refTitle={refTitle} firstRef={firstRef} firstName={firstName} />
+        <Navbar title={title} refTitle={refTitle} />
         <main>
             {children}
         </main>

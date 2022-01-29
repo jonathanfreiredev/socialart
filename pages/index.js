@@ -73,7 +73,7 @@ export default function Home(props) {
         <title>Social art - Jonathan Freire</title>
         <meta name="description" content="This is a social media of art" />
       </Head>
-      <Layout title="Social art." subtitle="Jonathan Freire." refTitle="/" firstRef="/#drawer" firstName="Create." isHovered={isHovered}>
+      <Layout title="Social art." refTitle="/" isHovered={isHovered}>
         <HomeSocialArt />
         {!session &&
           <LoginRequest id="login-cardframeart" text="You have to be logged in to give likes or edit your art" />
