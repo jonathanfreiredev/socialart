@@ -1,0 +1,46 @@
+.root{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    border-top: 1px solid #ccc;
+}
+.container{
+    width: 80%;
+    margin-top: 60px;
+    text-align: center;
+    h4{
+        margin: 20px auto;
+        font-size: 2.3rem;
+    }
+    font-weight: 300;
+}
+.description{
+    width: 95%;
+    margin: 0 auto 80px auto;
+    color: #666666;
+    p{
+        line-height: 1.85rem;
+        font-size: 1.1rem;
+    }
+}
+.updated{
+    text-align: right;
+    margin-top: 10px;
+    color: #666666;
+}
+
+@media (min-width: 570px){
+    .container{
+        margin-top: 80px;
+        h4{
+            font-size: 3rem;
+        }
+    }
+    .description{
+        p{
+            line-height: 1.85rem;
+            font-size: 1.25rem;
+        }
+    }
+}

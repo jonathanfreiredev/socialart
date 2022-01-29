@@ -1,0 +1,131 @@
+@mixin display-flex-center(){
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* Root */
+.root{
+    @include display-flex-center();
+    flex-direction: column;
+    width: 100%;
+    padding: 10px 0;
+}
+.container{
+    @include display-flex-center();
+    flex-direction: column;
+    margin: 5px 20px 15px;
+}
+.disabledContainer{
+    pointer-events: none;
+    opacity: 0.4;
+}
+/* Title */
+.contentTitle{
+    padding: 10px;
+    margin: 5px;
+    text-align: center;
+}
+.title{
+    font-weight: 900;
+    // color: rgb(41, 41, 41);
+    color: rgb(87, 131, 167);
+}
+
+/* Editor */
+.editor{
+    order: 2;
+    width: 250px;
+    // background-color: rgb(179, 220, 230);
+    background-color: rgb(177, 239, 255);
+    border: rgb(177, 239, 255) 2px solid;
+    border-radius: 0 0 10px 10px;
+}
+.content{
+    width: 90%;
+    margin: 20px auto;
+}
+.containerElements{
+    display: flex;
+    justify-content: center;
+}
+.containerColumn{
+    flex-direction: column;
+}
+
+/* Canvas */
+.canvas{
+    border: rgb(177, 239, 255) 2px solid;
+    border-radius: 10px 10px 0 0;
+    // border-image: linear-gradient(to right, rgb( 158, 233, 126) , rgb(255, 146, 63));
+    // border-image-slice: 1;
+}
+
+/* Colors */
+.panelColors{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin: 2px 0 5px 0;
+}
+.buttonsColors{
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+.button{
+    display: inline-block;
+    font: 500 15px "Roboto";
+    color: rgb(255, 255, 255);
+    background-color: rgb(255, 192, 137);
+    border-radius: 5px;
+    border: rgb(255, 255, 255) 1px solid;
+    padding: 5px 8px;
+    margin: 8px;
+    cursor: pointer;
+}
+.button:hover{
+    opacity: 0.7;
+    border-radius: 10px;
+    transition: 0.2s border-radius;
+}
+
+@media (min-width: 315px){
+    .editor{
+        width: 300px;
+    }
+}
+@media (min-width: 370px){
+    .editor{
+        width: 345px;
+    }
+}
+@media (min-width: 425px){
+    .editor{
+        width: 400px;
+    }
+}
+@media (min-width: 525px){
+    .editor{
+        width: 500px;
+    }
+}
+@media (min-width: 855px){
+    .container{
+        flex-direction: row;
+    }
+    /* The size of canvas must be a controlled size */
+    .canvas{
+        margin-left: 5px;
+        border-radius: 0 10px 10px 0;
+    }
+    .editor{
+        order: 0;
+        border-radius: 10px 0 0 10px;
+        width: 260px;
+        height: 500px;
+    }
+    .content{
+        margin: 50px auto;
+    }
+}

@@ -1,0 +1,151 @@
+@mixin input {
+    font-size: 20px;
+    font-weight: 500;
+    text-decoration: none;
+    outline: none;
+}
+@mixin submit(){
+    color: #fff;
+    background-color: rgb(82, 238, 255);
+    border-radius: 10px;
+    border: #fff 2px solid;
+    padding: 16px 0;
+    cursor: pointer;
+}
+@mixin submit-hover(){
+    opacity: 0.7;
+    transition: 0.5 opacity;
+}
+
+.root{
+    width: 100%;
+    padding: 20px 0;
+}
+.container{
+    width: 90%;
+    margin: 0 auto;
+    padding: 50px 0;
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    background-color: rgba(205, 255, 242, 0.8);
+}
+.content{
+    width: 90%;
+    margin: 0 auto;
+}
+.text{
+    color: #1a1a1a;
+    text-align: center;
+    margin: 0 auto 20px auto;
+    font-weight: 400;
+    h3{
+        margin-bottom: 10px;
+        p{
+            font-weight: 600;
+        }
+    }
+}
+/* Form */
+.carrousel{
+    position: relative;
+    display: flex;
+    margin-bottom: 10px;
+    width: 95%;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+.carrouselArrow{
+    position: relative;
+    z-index: 4;
+    border-radius: 30px;
+    background-color: rgba(255, 255, 255, 0.591);
+    width: 48px;
+    height: 48px;
+    text-align: center;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.15);
+    border: 0;
+    cursor: pointer;
+}
+.carrouselArrow:focus{
+    outline: 0;
+}
+.carrouselArrow svg{
+    width: 12px;
+    height: 100%;
+    color: rgba(0,0,0,.7);
+}
+.carrouselArrowPrev{
+    left: 2px;
+}
+.carrouselArrowNext{
+    right: 2px;
+}
+.avatars{
+    display: flex;
+    width: 90%;
+    transition: .5 ease-in-out;
+    overflow-x: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;
+}
+.avatars::-webkit-scrollbar{
+    display: none;
+}
+.avatar{
+    width: 100px;
+    height: 100px;
+}
+.alreadyAccount{
+    text-align: center;
+    margin-bottom: 10px;
+    p{
+        font-size: 0.85rem;
+        line-height: 1rem;
+    }
+    a{
+        color: #297eb6;
+        text-decoration: underline;
+    }
+}
+.contentForm{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin: 0 auto;
+    min-width: 200px;
+    max-width: 300px;
+    input{
+        @include input();
+    }
+    input[type=text], input[type=password] {
+        color: #1a1a1a;
+        border-radius: 5px;
+        border: rgb(82, 238, 255) 2px solid;
+        padding: 8px 0;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+    input[type=submit] {
+        @include submit();
+        margin-bottom: 8px;
+    }
+    input[type=submit]:hover {
+        @include submit-hover();
+    }
+    >p{
+        color: rgb(254, 66, 66);
+        font-size: 0.9rem;
+        line-height: 18px;
+        white-space: pre-line;
+    }
+}
+.create{
+    @include input();
+    @include submit();
+}
+.create:hover{
+    @include submit-hover();
+}

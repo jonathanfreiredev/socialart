@@ -1,0 +1,81 @@
+/* Variables */
+@mixin display-justify-content($display, $content){
+    display: $display;
+    justify-content: $content;
+}
+
+/* Containers */
+.root{
+    padding: 20px 0;
+}
+.container{
+    display: flex;
+    height: 60px;
+    margin: 0 4%;
+    position: relative;
+    z-index: 100;
+}
+/* Brand of the page*/
+.brand{
+    @include display-justify-content(flex, center);
+    align-items: center;
+}
+.title{
+    display: flex;
+    margin: 0;
+    flex-direction: column;
+    font-weight: 500;
+}
+.name{
+    font-size: 1.2rem;
+}
+.description{
+    font-size: 0.9rem;
+}
+@media (min-width: 570px){
+    .name{
+        font-size: 1.3rem;
+    }
+    .description{
+        font-size: 1rem ;
+    }
+    .container{
+        height: 70px;
+    }
+}
+
+/* Menu */
+.menu{
+    flex-grow: 3;
+    font-weight: 500;
+    @include display-justify-content(flex, flex-end);
+    .nav{
+        @include display-justify-content(flex, center);
+        div{
+            @include display-justify-content(flex, center);
+        }
+        a{
+            padding: 5px;
+            margin: auto 10px;
+        }
+        div:last-child{
+            margin-right: 0;
+            a{
+                border: 1px solid rgb(44, 44, 44);
+                border-radius: 10px;
+            }
+        }
+    }
+}
+.signout{
+    @include display-justify-content(flex, center);
+    align-items: center;
+}
+.iconLogout{
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    svg{
+        width: 20px;
+    }
+}

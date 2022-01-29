@@ -1,0 +1,22 @@
+
+.accordion{
+    margin: 20px 0;
+}
+.accordionItem{
+    border-top: 1px solid #ccc;
+    text-align: left;
+}
+.accordionTitle{
+    padding: 20px 0;
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    font-weight: 700;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+.accordionContent{
+    line-height: 25px;
+    margin-bottom: 20px;
+}

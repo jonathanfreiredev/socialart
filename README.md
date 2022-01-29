@@ -1,34 +1,81 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<h2 align="center">
+  Social art - Jonathan Freire<br/>
+  <a href="https://socialart.jonathanfreire.com/" target="_blank">socialart.jonathanfreire.com</a>
+</h2>
+<div align="center">
+  <img alt="home page" src="./public/home-socialart.png" />
+</div>
+
+<br/>
+
+<center>
+
+[![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com) &nbsp;
+[![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com) &nbsp;
+[![forthebadge](https://forthebadge.com/images/badges/open-source.svg)](https://forthebadge.com) &nbsp;
+
+</center>
+
+## TL;DR
+
+You can fork this repo to modify and make changes of your own. I hope you enjoy it.
+
+## Built With
+
+Social Art is a social network that allows you to draw and show your creativity. You also can edit or delete them and give likes to works that you like the most.
+
+This project was built using these technologies.
+
+- React.js
+- Node.js
+- Next.js
+- SWR
+- NextAuth.js
+- mongoose
+- react-canvas-draw
+- react-colorful
+- Lz-string
+- crypto
+- uuid
+- Sass
+- react-cookie-consent
+- VsCode
+- Vercel
+
+## Features
+
+**🎨 Styled with SCSS**
+
+**📱 Fully Responsive**
+
+**🛡 Authentication with NextAuth**
 
 ## Getting Started
 
-First, run the development server:
+Clone down this repository. You will need `node.js` and `git` installed globally on your machine.
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+## 🛠 Installation and Setup Instructions
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Installation: `npm install`
+2. You have to create a .env.development file in the parameters: `MONGODB_URI`,`SECRET` and `JWT_SIGNING_PRIVATE_KEY`. And also: `NEXTAUTH_URL="http://localhost:3000"`.
+You will need to create an account in MongoDB.
+2. In the project directory, you can run: `npm start` or `npm run dev`
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+Runs the app in the development mode.\
+Open [localhost:3000](localhost:3000) to view it in the browser.
+The page will reload if you make edits.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+## Usage Instructions
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Open the project folder and Navigate to `/components/`. <br/>
+You will find all the components used and you can edit your information accordingly.
 
-## Learn More
+### Show your support
 
-To learn more about Next.js, take a look at the following resources:
+Give a ⭐ if you like this website!
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+MIT
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+**Free Software, Yeah!**
