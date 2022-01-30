@@ -1,5 +1,6 @@
 import styles from "../../styles/social-art/HomeSocialArt.module.scss"
 import Image from "next/image"
+import Link from "next/link"
 
 export default function HomeSocialArt(){
     return <div className={styles.root}>
@@ -15,6 +16,11 @@ export default function HomeSocialArt(){
     <div className={styles.content}>
         <h2 className={styles.title}>
             <p>Design your canvas and be inspired by others</p>
+            <Link href="/#drawer">
+                <button name="create" type="button">
+                  CREATE A DRAWING
+                </button>
+            </Link>
         </h2>
     </div>
 </div>
