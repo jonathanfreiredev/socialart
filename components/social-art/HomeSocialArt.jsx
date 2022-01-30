@@ -1,4 +1,6 @@
 import styles from "../../styles/social-art/HomeSocialArt.module.scss"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faPalette, faPaintBrush} from '@fortawesome/free-solid-svg-icons'
 import Image from "next/image"
 import Link from "next/link"
 
@@ -16,12 +18,12 @@ export default function HomeSocialArt(){
     <div className={styles.content}>
         <h2 className={styles.title}>
             <p>Design your canvas and be inspired by others</p>
-            <Link href="/#drawer">
-                <button name="create" type="button">
-                  CREATE A DRAWING
-                </button>
-            </Link>
         </h2>
+            <Link href="/#drawer">
+                <a>
+                CREATE A DRAWING{" "}<FontAwesomeIcon icon={faPaintBrush} />
+                </a>
+            </Link>
     </div>
 </div>
 }

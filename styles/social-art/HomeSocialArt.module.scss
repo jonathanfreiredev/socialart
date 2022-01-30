@@ -16,9 +16,30 @@
 /* Content */
 .content{
     position: absolute;
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
     width: 85%;
     text-align: center;
+    a{
+        outline: none;
+        border: none;
+        border-radius: 5px;
+        background: #575c5e;
+        padding: 10px 15px;
+        margin: 20px auto;
+        font-size: 1rem;
+        color: #fff;
+        box-shadow: 0 2px 5px 1px #ccc;
+        cursor: pointer;
+        &:hover{
+            opacity: 0.8;
+            transition: 0.3s;
+        }
+        svg{
+            width: 1rem;
+            margin-left: 10px;
+        }
+    }
 }
 .title{
     margin:auto 0;
@@ -29,17 +50,6 @@
     p{
         font-size: 3rem;
         line-height: 45px;
-    }
-    button{
-        outline: none;
-        border: none;
-        border-radius: 7px;
-        background: #60ddff;
-        padding: 10px 15px;
-        margin-top: 10px;
-        font-size: 1rem;
-        color: #fff;
-        box-shadow: 2px 0 5px 1px #dbf8ff;
     }
 }
 
