@@ -1,6 +1,6 @@
 import styles from "../../styles/social-art/HomeSocialArt.module.scss"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faPalette, faPaintBrush} from '@fortawesome/free-solid-svg-icons'
+import { faPaintBrush} from '@fortawesome/free-solid-svg-icons'
 import Image from "next/image"
 import Link from "next/link"
 

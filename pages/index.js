@@ -11,6 +11,7 @@ import { decompressFromUTF16 } from 'lz-string'
 import { useSession } from 'next-auth/client'
 import DescriptionProject from '../components/DescriptionProject'
 import LoginRequest from "../components/LoginRequest"
+import Loading from "../components/Loading"
 
 const fetcher = (...args) => fetch(...args).then(res => res.json());
 
@@ -50,7 +51,7 @@ export default function Home(props) {
   ];
   
   if(loading){
-    return <div>...LOADING...</div>
+    return <Loading />
   }
   const user = session && session.user.user;
   const handleOnMouseOver=(e)=>{

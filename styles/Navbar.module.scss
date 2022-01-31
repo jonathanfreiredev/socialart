@@ -10,7 +10,6 @@
 }
 .container{
     display: flex;
-    justify-content: space-between;
     height: 60px;
     margin: 0 4%;
     position: relative;
@@ -47,8 +46,10 @@
 
 /* Menu */
 .menu{
-    display: flex;
+    flex-grow: 3;
     font-weight: 500;
+    display: flex;
+    align-items: center;
     @include display-justify-content(flex, flex-end);
     .nav{
         @include display-justify-content(flex, center);
@@ -73,10 +74,69 @@
     align-items: center;
 }
 .iconLogout{
+    margin: auto 0;
     width: 30px;
     height: 30px;
     cursor: pointer;
     svg{
         width: 20px;
+    }
+}
+
+// Navbar Collapse
+.containerNavbarCollapse{
+    height: 30px;
+    padding: 5px;
+    cursor: pointer;
+    svg{
+        width: 30px !important;
+        height: 100%;
+        color: #3c8bc0;
+    }
+}
+// Menu responsive
+.containerMenuResponsive{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    z-index: 999;
+    left: 0;
+    right: 0;
+    width: 95%;
+    border-radius: 0 0 20px 20px;
+    margin: 0 auto;
+    box-shadow: 0 3px 6px 0 #ccc;
+    div{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-width: 0 0 1px;
+        border-style: solid;
+        border: 1px 0;
+        color: #fff;
+        text-align: center;
+        p, a{
+            width: 100%;
+            font-weight: 500;
+            font-size: 1.25rem;
+        }
+        p{
+            padding: 40px 0;
+        }
+        &:first-child{
+            border-top: 0;
+            background: #99bbbd;
+        }
+        &:nth-child(2){
+            background: #8eafbf;
+        }
+        &:nth-child(3){
+            background: #75a5c5;
+        }
+        &:last-child{
+            border-radius: 0 0 20px 20px;
+            border: none;
+            background: #3c8bc0;
+        }
     }
 }
