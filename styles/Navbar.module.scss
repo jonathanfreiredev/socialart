@@ -25,6 +25,10 @@
     margin: 0;
     flex-direction: column;
     font-weight: 500;
+    &:hover{
+        color: #3c8bc0;
+        transition: 0.3s color;
+    }
 }
 .name{
     font-size: 1.2rem;
@@ -59,12 +63,20 @@
         a{
             padding: 5px;
             margin: auto 10px;
+            &:hover{
+                color: #3c8bc0;
+                transition: 0.3s color;
+            }
         }
         div:last-child{
             margin-right: 0;
             a{
                 border: 1px solid rgb(44, 44, 44);
                 border-radius: 10px;
+                &:hover{
+                    border-color: #3c8bc0;
+                    transition: 0s border-color;
+                }
             }
         }
     }
@@ -91,52 +103,56 @@
     svg{
         width: 30px !important;
         height: 100%;
+    }
+    &:hover{
         color: #3c8bc0;
+        transition: 0.3s color;
     }
 }
 // Menu responsive
 .containerMenuResponsive{
     display: flex;
     flex-direction: column;
-    position: absolute;
+    position: fixed;
+    top: 0;
+    height: 100vh;
     z-index: 999;
-    left: 0;
-    right: 0;
-    width: 95%;
-    border-radius: 0 0 20px 20px;
+    width: 100%;
     margin: 0 auto;
-    box-shadow: 0 3px 6px 0 #ccc;
-    div{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-width: 0 0 1px;
-        border-style: solid;
-        border: 1px 0;
-        color: #fff;
-        text-align: center;
-        p, a{
-            width: 100%;
-            font-weight: 500;
-            font-size: 1.25rem;
-        }
-        p{
-            padding: 40px 0;
-        }
-        &:first-child{
-            border-top: 0;
-            background: #99bbbd;
-        }
-        &:nth-child(2){
-            background: #8eafbf;
-        }
-        &:nth-child(3){
-            background: #75a5c5;
-        }
-        &:last-child{
-            border-radius: 0 0 20px 20px;
-            border: none;
-            background: #3c8bc0;
+    background: #fff;
+    .content{
+        margin: 33px auto 0;
+        div{
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            text-align: center;
+            padding: 10px 0;
+            p, a{
+                font-weight: 500;
+                font-size: 1.25rem;
+            }
+            p{
+                width: 100px;
+                padding: 15px 10px;
+            }
+            &:first-child{
+                border-top: 0;
+            }
+            &:hover{
+                color: #3c8bc0;
+                transition: 0.3s color;
+            }
         }
     }
+}
+.openedMenuResponsive{
+    right: 0;
+    opacity: 1;
+    transition: all 0.3s ease-in-out;
+}
+.closedMenuResponsive{
+    right: -100%;
+    opacity: 1;
+    transition: all 0.5s ease-out;
 }

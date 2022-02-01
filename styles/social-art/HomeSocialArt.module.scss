@@ -4,6 +4,7 @@
     display: $display;
     justify-content: $content;
 }
+$color: #376688;
 /* Containers */
 .root{
     @include display-justify-content(flex, center);
@@ -22,9 +23,9 @@
     text-align: center;
     a{
         outline: none;
-        border: none;
+        border: 1px solid $color;
         border-radius: 5px;
-        background: #575c5e;
+        background: $color;
         padding: 10px 15px;
         margin: 20px auto;
         font-size: 1rem;
@@ -32,8 +33,10 @@
         box-shadow: 0 2px 5px 1px #ccc;
         cursor: pointer;
         &:hover{
-            opacity: 0.8;
-            transition: 0.3s;
+            border: 1px solid $color;
+            background: #fff;
+            color: $color;
+            transition: all 0.3s ease;
         }
         svg{
             width: 1rem;
@@ -45,11 +48,11 @@
     margin:auto 0;
     z-index: 1;
     font-weight: 400;
-    color: #393b3c;
+    color: $color;
     text-shadow: 2px 2px 5px #ccc;
     p{
         font-size: 3rem;
-        line-height: 45px;
+        line-height: 60px;
     }
 }
 

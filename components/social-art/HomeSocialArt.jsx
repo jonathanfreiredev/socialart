@@ -17,11 +17,11 @@ export default function HomeSocialArt(){
     </div>
     <div className={styles.content}>
         <h2 className={styles.title}>
-            <p>Design your canvas and be inspired by others</p>
+            <p>Be creative and share it!</p>
         </h2>
             <Link href="/#drawer">
                 <a>
-                CREATE A DRAWING{" "}<FontAwesomeIcon icon={faPaintBrush} />
+                CREATE YOUR CANVAS{" "}<FontAwesomeIcon icon={faPaintBrush} />
                 </a>
             </Link>
     </div>

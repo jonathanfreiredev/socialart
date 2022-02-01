@@ -2,13 +2,13 @@ import styles from "../styles/Navbar.module.scss"
 import Link from "next/link"
 import { signOut, useSession } from 'next-auth/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 import React, { useState, useEffect } from 'react'
 import NavbarCollapse from "./NavbarCollapse";
 import MenuResponsive from "./MenuResponsive";
 import ButtonNavbar from "./ButtonNavbar";
 
-export default function Navbar({title, refTitle}){
+export default function Navbar({title, subtitle, refTitle}){
     const [ session, loading ] = useSession();
     const [windowWidth, setWindowWidth] = useState(0);
     const [openMenuResponsive, setOpenMenuResponsive] = useState(false);
@@ -34,7 +34,6 @@ export default function Navbar({title, refTitle}){
         signOut({redirect: true})
     }
     const updateDimensions = () => {
-        console.log(window.innerWidth)
         setWindowWidth(window.innerWidth);
     }
     const handleOpenCollapseMenu = ()=>{
@@ -48,7 +47,7 @@ export default function Navbar({title, refTitle}){
     }, []);
 
     useEffect(()=>{
-        if(windowWidth > 800){
+        if(windowWidth > 700){
             setOpenMenuResponsive(false);
         }
     },[windowWidth])
@@ -60,12 +59,13 @@ export default function Navbar({title, refTitle}){
                     <a>
                         <h1 className={styles.title}>
                             <strong className={styles.name}>{title}</strong>
+                            <span className={styles.description}>{subtitle}</span>
                         </h1>
                     </a>
                 </Link>
             </div>
             <div className={styles.menu}>
-                {windowWidth > 800 ?
+                {windowWidth > 700 ?
                     <div className={styles.nav}>
                         <ButtonNavbar link={links.homejf.link} name={links.homejf.name} />
                         <ButtonNavbar link={links.contact.link} name={links.contact.name} />
@@ -83,12 +83,12 @@ export default function Navbar({title, refTitle}){
                         }
                     </div>
                 :   
-                    <NavbarCollapse openMenuResponsive={openMenuResponsive} handleClick={handleOpenCollapseMenu} />
+                    <NavbarCollapse handleClick={handleOpenCollapseMenu} fa={faBars} />
                 }
             </div>
         </div>
-        {openMenuResponsive && windowWidth <= 800 &&
-            <MenuResponsive session={session} links={links} handleLogout={handleLogout} />
+        {windowWidth <= 700 &&
+            <MenuResponsive session={session} links={links} handleLogout={handleLogout} openMenuResponsive={openMenuResponsive} handleOpenCollapseMenu={handleOpenCollapseMenu} />
         }
     </div>
 }
