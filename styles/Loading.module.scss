@@ -1,10 +1,15 @@
 .root {
     display: flex;
+	flex-direction: column;
     justify-content: center;
     align-items: center;
 	width: 100%;
     height: 100vh;
-
+	p{
+		font-size: 1.3rem;
+		color: rgb(71, 156, 189, 0.7);
+		margin-top: 80px;
+	}
 }
 
 .container {
@@ -63,6 +68,11 @@
 }
 
 @media (min-width: 600px){
+	.root{
+		p{
+			font-size: 1.6rem;
+		}
+	}
 	.ball {
 		width: 30px;
 		height: 30px;

@@ -10,5 +10,6 @@ export default function Loading(){
             <div className={styles.ball}></div>
             <div className={styles.ball}></div>
         </div>
+        <p>loading ...</p>
     </div>
 }
