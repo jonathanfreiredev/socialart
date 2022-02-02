@@ -16,7 +16,7 @@
     display: flex;
     justify-content: center;
 	padding: 50px 0;
-    width: 50%;
+    width: 40%;
 }
 
 .ball {
@@ -28,41 +28,35 @@
 
 .ball:nth-child(1) {
 	background: #ca70e8;
-    box-shadow: 0 0 5px 0 #ca70e8;
 	animation: up 1s infinite ease-in-out;
 }
 
 .ball:nth-child(2) {
 	background: #7ec7c0;
-    box-shadow: 0 0 5px 0 #7ec7c0;
 	animation: down 1s infinite ease-in-out;
 	animation-delay: -0.3s;
 }
 
 .ball:nth-child(3) {
 	background: #f04a4a;
-    box-shadow: 0 0 5px 0 #f04a4a;
 	animation: up 1s infinite ease-in-out;
 	animation-delay: -0.6s;
 }
 
 .ball:nth-child(4) {
 	background: #4956df;
-    box-shadow: 0 0 5px 0 #4956df;
 	animation: down 1s infinite ease-in-out;
 	animation-delay: -0.9s;
 }
 
 .ball:nth-child(5) {
 	background: #4be445;
-    box-shadow: 0 0 5px 0 #4be445;
 	animation: up 1s infinite ease-in-out;
 	animation-delay: -1.2s;
 }
 
 .ball:nth-child(6) {
 	background: #e6e86f;
-    box-shadow: 0 0 5px 0 #e6e86f;
 	animation: down 1s infinite ease-in-out;
 	animation-delay: -1.5s;
 }
