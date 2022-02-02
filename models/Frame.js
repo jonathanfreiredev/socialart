@@ -5,6 +5,10 @@ const FrameSchema = new mongoose.Schema({
     id: String,
     user: String,
     userImage: String,
+    dataImage: {
+        url: String,
+        public_id: String
+    },
     likes: [String], //likes is an array of USERS'S ID.
     dataFrame: String,
 })

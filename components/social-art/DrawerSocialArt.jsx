@@ -11,6 +11,7 @@ import cn from "classnames"
 import LoginRequest from "../LoginRequest"
 
 export default function DrawerSocialArt({mouseOver, mouseOut, canvasRef, isEditing, onIsEditing, frameInEdit, width}){
+    // console.log(cloudinary)
     const contentType = 'application/json';
     const defaultColor ={r:121, g:136, b:210, a:1};
     const [colors, setColors] = useState([{r:29, g:29, b:29, a:1},{r:88, g:134, b:233, a:1}]);
@@ -18,6 +19,7 @@ export default function DrawerSocialArt({mouseOver, mouseOut, canvasRef, isEditi
     const [thickness, setThickness] = useState(10);
     const [session, loading] = useSession();
     const router = useRouter();
+
     /* POST a new frame to mongoDB */
     const postFrame = async (data) => {
         try {
@@ -58,18 +60,62 @@ export default function DrawerSocialArt({mouseOver, mouseOut, canvasRef, isEditi
           console.log(error);
         }
     }
+    /* POST Image to Cloudinary */
+    const uploadImage = async (dataImage)=>{
+        try{
+            const res = await fetch("/api/upload-image",{
+                    method:"POST",
+                    body: dataImage
+                }).then(response => response.json())
+                .then(data => {
+                  return data
+                });
+            const image = {
+                url: res.url,
+                public_id: res.public_id,
+            };
+            return image;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    const updateImage = async (dataImage)=>{
+        try{
+            await deleteImage();
+            const image = await uploadImage(dataImage);
+            return image;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    const deleteImage = async ()=>{
+        try{
+            await fetch("/api/delete-image",{
+                    method:"POST",
+                    body: frameInEdit.dataImage.public_id
+                }).then(response => response.json())
+                .then(data => {
+                  return data
+                });
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     /* Canvas Functions */
-    const save = ()=>{
+    const save = async(dataImage)=>{
         if(session){
             const canvas = canvasRef.current.getSaveData();
             clear();
             if(isEditing) {
                 frameInEdit.dataFrame = canvas;
-                putFrame(frameInEdit);
+                const image = await updateImage(dataImage);
+                frameInEdit.dataImage = image;
+                await putFrame(frameInEdit);
                 onIsEditing(false);
             }else{
-                postFrame({id: uuidv4(), user:session.user.name, userImage: session.user.image, dataFrame: canvas, likes: []});
+                const image = await uploadImage(dataImage);
+                await postFrame({id: uuidv4(), user:session.user.name, userImage: session.user.image, dataFrame: canvas, dataImage: image, likes: []});
             }
             router.push("/#board-frames");
         }else{
@@ -95,7 +141,6 @@ export default function DrawerSocialArt({mouseOver, mouseOut, canvasRef, isEditi
     }
     /* Thickness Functions */
     const handleChangeThickness = (val)=>{
-        console.log(val)
         setThickness(Number(val));
     }
     
@@ -115,7 +160,7 @@ export default function DrawerSocialArt({mouseOver, mouseOut, canvasRef, isEditi
                         <div className={styles.containerElements}>
                             <input className={styles.button} onClick={clear} type="submit" value="Clear" />
                             <input className={styles.button} onClick={undo} type="submit" value="Undo" />
-                            <input className={styles.button} onClick={save} type="submit" value="Save" />
+                            <input className={styles.button} onClick={()=>save(canvasRef.current.getDataURL())} type="submit" value="Save" />
                         </div>
                     </div>
                     <div className={cn(styles.containerElements, styles.containerColumn)}>

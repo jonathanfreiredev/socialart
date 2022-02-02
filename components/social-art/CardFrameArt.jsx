@@ -8,6 +8,7 @@ import styles from "../../styles/social-art/BoardFrames.module.scss"
 import { useRouter } from 'next/dist/client/router'
 import cn from "classnames"
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 
 export default function CardFrameArt({ onEdit, frame, user, width}){
     const [liked, setLiked] = useState(false);
@@ -84,7 +85,17 @@ export default function CardFrameArt({ onEdit, frame, user, width}){
                 <p>{frame.user}</p>
             </div>
         </div>
-        <FrameArt data={frame.dataFrame} width={width} />
+        {frame.dataImage ? 
+            <div>
+                <Image 
+                    src={frame.dataImage.url}
+                    width={width >= 370 ? 340 : width >= 315 ? 290 : 250}
+                    height={width >= 315 ? 400 : 360}>
+                </Image>
+            </div>
+        :
+            <FrameArt data={frame.dataFrame} width={width} />
+        }
         <div className={styles.social}>
             <div className={styles.contentSocial}>
                 <div className={styles.likes}>

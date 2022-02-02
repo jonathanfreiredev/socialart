@@ -10,7 +10,7 @@ export default function HomeSocialArt(){
         <Image 
             className={styles.image}
             alt="Elephant"
-            src="/elephant.svg"
+            src="https://res.cloudinary.com/ddjovluur/image/upload/v1643728722/socialart/elephant_hqoyqd.svg"
             layout="fill"
             priority="true"
         />
