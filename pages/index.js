@@ -7,7 +7,6 @@ import { useState, useRef, useEffect } from 'react'
 import dbConnect from "../utils/dbConnect"
 import Frame from "../models/Frame"
 import useSWR from "swr"
-import { decompressFromUTF16 } from 'lz-string'
 import { useSession } from 'next-auth/client'
 import DescriptionProject from '../components/DescriptionProject'
 import LoginRequest from "../components/LoginRequest"
@@ -37,8 +36,8 @@ export default function Home(props) {
       content: "I wanted to show my ability to work with new npm packages. So, I have implemented an interesting npm package (react-canvas-draw). This package allows drawing in different colours, thicknesses, etc., even editing a previously made drawing. Everything is possible by passing some parameters. To determine these parameters, I have combined it with another package (react-colorful) that allows you to choose the colour in RGBA. I also have added the options of thickness and saving colours by myself.",
     },
     {
-      title: "Are the drawings and other information stored in a database?",
-      content: "Yes. Drawings and data related to them are stored safely with MongoDB. Something special is that the canvas saves the drawing in a stringified object by default, which could be too long. For that reason, I have used an npm package called LZ-string to compress the data. So every drawing is compressed before being saved and decompressed before being shown. Decompression happens in compile-time or revalidation."
+      title: "Is my drawing and other information stored in a database?",
+      content: "Yes. Drawings and data related to them are stored safely with MongoDB. Something special is that the drawing is saved in two ways. On the one hand, it is saved as an image to be optimized and uploaded to Cloudinary in order to be shown in the social area. On the other hand, the drawing is saved as a string of a Json which is used when the user wants to edit it. The combination of these two methods boosts the performance of this project."
     },
     {
       title: "If I or other users create a new drawing, do I have to reload the page to see it?",
@@ -104,7 +103,7 @@ export async function getStaticProps(){
   const frames = data.map((element) => {
     const frame = element.toObject();
     frame._id = frame._id.toString();
-    frame.dataFrame = decompressFromUTF16(frame.dataFrame);
+    frame.dataFrame = "";
     return frame;
   })
   return { props: { data: frames}, revalidate: 1}

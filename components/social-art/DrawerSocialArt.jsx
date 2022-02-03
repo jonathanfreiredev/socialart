@@ -11,7 +11,6 @@ import cn from "classnames"
 import LoginRequest from "../LoginRequest"
 
 export default function DrawerSocialArt({mouseOver, mouseOut, canvasRef, isEditing, onIsEditing, frameInEdit, width}){
-    // console.log(cloudinary)
     const contentType = 'application/json';
     const defaultColor ={r:121, g:136, b:210, a:1};
     const [colors, setColors] = useState([{r:29, g:29, b:29, a:1},{r:88, g:134, b:233, a:1}]);
@@ -81,7 +80,7 @@ export default function DrawerSocialArt({mouseOver, mouseOut, canvasRef, isEditi
     }
     const updateImage = async (dataImage)=>{
         try{
-            await deleteImage();
+            deleteImage();
             const image = await uploadImage(dataImage);
             return image;
         } catch (error) {
@@ -93,10 +92,7 @@ export default function DrawerSocialArt({mouseOver, mouseOut, canvasRef, isEditi
             await fetch("/api/delete-image",{
                     method:"POST",
                     body: frameInEdit.dataImage.public_id
-                }).then(response => response.json())
-                .then(data => {
-                  return data
-                });
+                })
         } catch (error) {
             console.log(error);
         }
@@ -108,10 +104,16 @@ export default function DrawerSocialArt({mouseOver, mouseOut, canvasRef, isEditi
             const canvas = canvasRef.current.getSaveData();
             clear();
             if(isEditing) {
-                frameInEdit.dataFrame = canvas;
+                const resFrame = await fetch(`/api/frames/${frameInEdit.id}`,{
+                    method:"GET",
+                }).then(response => response.json())
+                .then(data => {
+                  return data.data
+                });
+                resFrame.dataFrame = canvas;
                 const image = await updateImage(dataImage);
-                frameInEdit.dataImage = image;
-                await putFrame(frameInEdit);
+                resFrame.dataImage = image;
+                await putFrame(resFrame);
                 onIsEditing(false);
             }else{
                 const image = await uploadImage(dataImage);

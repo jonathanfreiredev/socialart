@@ -1,4 +1,3 @@
-import FrameArt from './FrameArt'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart as fasHeart } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons'
@@ -9,8 +8,9 @@ import { useRouter } from 'next/dist/client/router'
 import cn from "classnames"
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
+import { decompressFromUTF16 } from 'lz-string'
 
-export default function CardFrameArt({ onEdit, frame, user, width}){
+export default function CardFrameArt({ onEdit, frame, user}){
     const [liked, setLiked] = useState(false);
     const contentType = 'application/json';
     const router = useRouter();
@@ -32,8 +32,16 @@ export default function CardFrameArt({ onEdit, frame, user, width}){
         }
     }
 
-    const handleEditFrame = (frameData)=>{
-        onEdit(frameData);
+    const handleEditFrame = async (frameData)=>{
+        const resFrame = await fetch(`/api/frames/${frameData.id}`,{
+            method:"GET",
+        }).then(response => response.json())
+        .then(data => {
+            const frame = data.data;
+            frame.dataFrame = decompressFromUTF16(frame.dataFrame);
+          return frame
+        });
+        onEdit(resFrame);
         router.push("/#drawer");
     }
     const findUserInFrame = ()=>{
@@ -43,14 +51,18 @@ export default function CardFrameArt({ onEdit, frame, user, width}){
     /* Delete */
     const deleteFrame = async (frameData) => {
         try {
-          await fetch(`/api/frames/${frameData.id}`, {
-            method: 'Delete',
-            headers: {
-                Accept: contentType,
-                'Content-Type': contentType,
-            },
-            body: JSON.stringify(frameData),
-          })
+            fetch("/api/delete-image",{
+                method:"POST",
+                body: frameData.dataImage.public_id
+            })
+            await fetch(`/api/frames/${frameData.id}`, {
+                method: 'Delete',
+                headers: {
+                    Accept: contentType,
+                    'Content-Type': contentType,
+                },
+                body: JSON.stringify(frameData),
+            })
         } catch (error) {
           console.log(error);
         }
@@ -85,17 +97,15 @@ export default function CardFrameArt({ onEdit, frame, user, width}){
                 <p>{frame.user}</p>
             </div>
         </div>
-        {frame.dataImage ? 
-            <div>
-                <Image 
-                    src={frame.dataImage.url}
-                    width={width >= 370 ? 340 : width >= 315 ? 290 : 250}
-                    height={width >= 315 ? 400 : 360}>
-                </Image>
-            </div>
-        :
-            <FrameArt data={frame.dataFrame} width={width} />
-        }
+        <div className={styles.frameArt}>
+            <Image 
+                src={frame.dataImage.url}
+                layout='responsive'
+                width={380}
+                height={450}
+            >
+            </Image>
+        </div>
         <div className={styles.social}>
             <div className={styles.contentSocial}>
                 <div className={styles.likes}>
