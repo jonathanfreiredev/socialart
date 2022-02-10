@@ -9,9 +9,11 @@ import cn from "classnames"
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { decompressFromUTF16 } from 'lz-string'
+import { set } from 'mongoose'
 
 export default function CardFrameArt({ onEdit, frame, user}){
     const [liked, setLiked] = useState(false);
+    const [deleteSelected, setDeleteSelected] = useState(false);
     const contentType = 'application/json';
     const router = useRouter();
     /* Handles */
@@ -81,6 +83,11 @@ export default function CardFrameArt({ onEdit, frame, user}){
           console.log(error);
         }
     }
+
+    const handleDeleteFrame = ()=>{
+        setDeleteSelected(!deleteSelected);
+    }
+
     useEffect(() => {
         if(user){
             const index = findUserInFrame();
@@ -108,24 +115,36 @@ export default function CardFrameArt({ onEdit, frame, user}){
         </div>
         <div className={styles.social}>
             <div className={styles.contentSocial}>
-                <div className={styles.likes}>
-                    <div className={cn(styles.icon, styles.firstIcon)} onClick={()=>handleLike(frame)}>
-                        <FontAwesomeIcon 
-                            icon={liked ? fasHeart : farHeart} 
-                            className={cn(styles.fa, styles.faHeart)} 
-                        />
-                    </div>
-                    <div className={styles.icon}>
-                        <p>{frame.likes.length}</p>
-                    </div>
-                </div>
-                {user && user.username == frame.user &&
-                    <div className={styles.buttons}>
-                        <div onClick={()=>handleEditFrame(frame)} className={styles.icon}>
-                            <FontAwesomeIcon icon={faEdit} className={cn(styles.fa, styles.faEdit)} />
+                {!deleteSelected ?
+                    <>
+                        <div className={styles.likes}>
+                            <div className={cn(styles.icon, styles.firstIcon)} onClick={()=>handleLike(frame)}>
+                                <FontAwesomeIcon 
+                                    icon={liked ? fasHeart : farHeart} 
+                                    className={cn(styles.fa, styles.faHeart)} 
+                                />
+                            </div>
+                            <div className={styles.icon}>
+                                <p>{frame.likes.length}</p>
+                            </div>
                         </div>
-                        <div onClick={()=>deleteFrame(frame)} className={cn(styles.icon, styles.lastIcon)}>
-                            <FontAwesomeIcon icon={faTrashAlt} className={styles.fa} />
+                        {user && user.username == frame.user &&
+                            <div className={styles.buttons}>
+                                <div onClick={()=>handleEditFrame(frame)} className={styles.icon}>
+                                    <FontAwesomeIcon icon={faEdit} className={cn(styles.fa, styles.faEdit)} />
+                                </div>
+                                <div onClick={handleDeleteFrame} className={cn(styles.icon, styles.lastIcon)}>
+                                    <FontAwesomeIcon icon={faTrashAlt} className={styles.fa} />
+                                </div>
+                            </div>
+                        }
+                    </>
+                :
+                    <div className={styles.removeFrame}>
+                        <p>Are you sure you want to remove it?</p>
+                        <div>
+                            <button type="button" onClick={()=>deleteFrame(frame)} className={styles.yes}>YES</button>
+                            <button type="button" onClick={handleDeleteFrame} className={styles.no}>NO</button>
                         </div>
                     </div>
                 }

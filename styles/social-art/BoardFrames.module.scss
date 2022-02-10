@@ -52,6 +52,39 @@
 .contentSocial{
     display: flex;
     align-items: center;
+    .removeFrame{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        text-align: center;
+        p{
+            color: #236d9f;
+        }
+        div{
+            display: flex;
+            margin: 5px auto;
+            button{
+                margin: 0 10px;
+                padding: 5px 20px;
+                border-radius: 5px;
+                cursor: pointer;
+                &:hover{
+                    opacity: 0.7;
+                    transition: 0.3s;
+                }
+            }
+            .yes{
+                background-color: #fff;
+                color: #297eb6;
+                border: 1px solid #297eb6;
+            }
+            .no{
+                background-color: #297eb6;
+                color: #fff;
+                border: 1px solid #297eb6;
+            }
+        }
+    }
 }
 .likes{
     flex-grow: 1;
