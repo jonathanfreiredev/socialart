@@ -21,6 +21,10 @@ export default function Navbar({title, subtitle, refTitle}){
             name: "Contact.",
             link: "https://www.jonathanfreire.com/#contact"
         },
+        profile:{
+            name: "Profile.",
+            link: "/profile"
+        },
         signin:{
             name: "Sign in",
             link: "/signin"
@@ -70,11 +74,14 @@ export default function Navbar({title, subtitle, refTitle}){
                         <ButtonNavbar link={links.homejf.link} name={links.homejf.name} />
                         <ButtonNavbar link={links.contact.link} name={links.contact.name} />
                         {session ?
-                            <div className={styles.signout}>
-                                <div onClick={handleLogout} className={styles.iconLogout}>
-                                    <FontAwesomeIcon icon={faSignOutAlt} />
+                            <>
+                                <ButtonNavbar link={links.profile.link} name={links.profile.name} />
+                                <div className={styles.signout}>
+                                    <div onClick={handleLogout} className={styles.iconLogout}>
+                                        <FontAwesomeIcon icon={faSignOutAlt} />
+                                    </div>
                                 </div>
-                            </div>
+                            </>
                         :
                             <>
                                 <ButtonNavbar link={links.signin.link} name={links.signin.name} />

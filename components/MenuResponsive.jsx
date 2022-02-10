@@ -12,11 +12,14 @@ export default function MenuResponsive({session, links, handleLogout, openMenuRe
             <ButtonNavbar link={links.homejf.link} name={links.homejf.name} />
             <ButtonNavbar link={links.contact.link} name={links.contact.name} />
             {session ?
-                <div onClick={handleLogout}>
-                    <p>
-                        Log out.
-                    </p>
-                </div>
+                <>
+                    <ButtonNavbar link={links.profile.link} name={links.profile.name} />
+                    <div onClick={handleLogout}>
+                        <p>
+                            Log out.
+                        </p>
+                    </div>
+                </>
             :
                 <>
                     <ButtonNavbar link={links.signin.link} name={links.signin.name} />

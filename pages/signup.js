@@ -8,7 +8,7 @@ export default function signup(){
             <title>Sign up - Jonathan Freire</title>
             <meta name="description" content="Sign up" />
         </Head>
-        <Layout title="Social art." subtitle="Jonathan Freire." refTitle="/" firstRef="/#works" firstName="Works." secondRef="#footer" secondName="Contact me.">
+        <Layout title="Social art." subtitle="Jonathan Freire." refTitle="/">
             <Authentication type="signup" />
         </Layout>
     </div>

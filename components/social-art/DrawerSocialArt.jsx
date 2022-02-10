@@ -145,7 +145,12 @@ export default function DrawerSocialArt({mouseOver, mouseOut, canvasRef, isEditi
     const handleChangeThickness = (val)=>{
         setThickness(Number(val));
     }
-    
+    /* NEW DRAW */
+    const handleNewDraw = ()=>{
+        canvasRef.current.clear();
+        onIsEditing(false);
+    }   
+
     return <section id="drawer" className={styles.root}>
         <div className={styles.contentTitle}>
             <h3 className={styles.title}>
@@ -179,6 +184,9 @@ export default function DrawerSocialArt({mouseOver, mouseOut, canvasRef, isEditi
                             <SliderPencil max={"50"} step={"1"} defaultValue={"10"} onChangeSlider={handleChangeThickness}/>
                         </div>
                     </div>
+                    <button className={cn(styles.button, styles.newDraw)} type="button" onClick={handleNewDraw}>
+                        NEW DRAW
+                    </button>
                 </div>
             </div>
             <div onMouseOver={(e)=>mouseOver()} onMouseOut={(e)=>mouseOut()}>
