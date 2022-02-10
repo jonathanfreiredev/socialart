@@ -109,6 +109,9 @@
         color: #297eb6;
         text-decoration: underline;
     }
+    .advice{
+        font-weight: 700;
+    }
 }
 .contentForm{
     display: flex;
@@ -140,6 +143,15 @@
         font-size: 0.9rem;
         line-height: 18px;
         white-space: pre-line;
+    }
+    .consentSignup{
+        margin-bottom: 10px;
+        label{
+            font-size: 0.9rem;
+            a{
+                color: #297eb6;
+            }
+        }
     }
 }
 .create{

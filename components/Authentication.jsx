@@ -1,6 +1,6 @@
 import styles from "../styles/Authentication.module.scss"
 import { useState, useRef } from "react"
-import { signIn, useSession} from "next-auth/client"
+import { signIn } from "next-auth/client"
 import { useRouter } from 'next/dist/client/router'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
@@ -18,7 +18,7 @@ export default function Authentication({type}){
     });
     const [errorPassword, setErrorPassword] = useState("");
     const [selectedAvatar, setSelectedAvatar] = useState("");
-    const [session, loading] = useSession();
+    const [consentSignup, setConsentSignup] = useState(false);
     const avatars = ["james", "jerry", "joe", "jeri", "jazebelle", "jude", "jacques", "jocelyn", "josephine", "jabala", "jake", "josh", "jess", "jodi", "jai", "jordan", "jon", "jeane", "julie", "jana", "jia", "jane", "jean", "jolee", "jed", "jaqueline", "jenni", "jack"]
     const router = useRouter();
     const refAvatars = useRef(null);
@@ -43,7 +43,7 @@ export default function Authentication({type}){
                     setErrorPassword("This username is not available.\nPlease, choose another.");
                 }
             }else{
-                router.back();
+                router.push("/");
             }
         });
     }
@@ -55,8 +55,12 @@ export default function Authentication({type}){
                 if(type==="signup"){
                     if(form.password == form.repeatPassword){
                         if(form.image !== ""){
-                            setErrorPassword("");
-                            authentication();
+                            if(consentSignup){
+                                setErrorPassword("");
+                                authentication();
+                            }else{
+                                setErrorPassword("Please, read and accept the Privacy policy to sign up.");
+                            }
                         }else{
                             setErrorPassword("You must choose an avatar");
                         }
@@ -85,6 +89,9 @@ export default function Authentication({type}){
             ["image"]: `https://joeschmoe.io/api/v1/${value}`,
         })
     }
+    const handleConsentSignup = ()=>{
+        setConsentSignup(!consentSignup);
+    }
 
     return <div className={styles.root} id="authentication">
         <div className={styles.container}>
@@ -110,12 +117,12 @@ export default function Authentication({type}){
                         </div>
                     }
                     <div className={styles.alreadyAccount}>
+                        <p className={styles.advice}>You also can use your account for another of my projects.</p>
                         <p>{type==="signup" ? "Already" : "Don’t"} have an account?{" "}
                         <Link href={type==="signup" ? "signin" : "signup"}>
                             <a>Sign {type==="signup" ? "in" : "up"}</a>
                         </Link>
                         .</p>
-                        <p>You also can use your account for another of my projects.</p>
                     </div>
                     <div className={styles.contentForm}>
                         <label htmlFor="username"></label>
@@ -126,6 +133,14 @@ export default function Authentication({type}){
                         <>
                             <label htmlFor="repeatPassword"></label>
                             <input type="password" id="repeatPassword" name="repeatPassword" placeholder="********" value={form.repeatPassword} onChange={handleChange} required />
+                            <div className={styles.consentSignup}>
+                                <label>
+                                    <input type="checkbox" checked={consentSignup} onChange={handleConsentSignup}/>
+                                    {" " + "I understand and agree with the "}
+                                    <a href="https://www.jonathanfreire.com/privacy-policy">{"Privacy policy"}</a>
+                                    .
+                                </label>
+                            </div>
                         </>
                         }
                         <input onClick={handleSubmit} type="submit" value={type==="signup" ? "Sign up" : "Sign in"} />
