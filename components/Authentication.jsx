@@ -119,7 +119,7 @@ export default function Authentication({type}){
                     <div className={styles.alreadyAccount}>
                         <p className={styles.advice}>You also can use your account for another of my projects.</p>
                         <p>{type==="signup" ? "Already" : "Don’t"} have an account?{" "}
-                        <Link href={type==="signup" ? "signin" : "signup"}>
+                        <Link href={type==="signup" ? "/signin" : "/signup"}>
                             <a>Sign {type==="signup" ? "in" : "up"}</a>
                         </Link>
                         .</p>

@@ -1,0 +1,104 @@
+.root{
+    
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    width: 90%;
+    max-width: 900px;
+    >div{
+        margin: 20px auto;
+        border: 1px solid rgb(222, 222, 222);
+        border-radius: 5px;
+        width: 100%;
+        overflow: hidden;
+        &:first-child{
+            border: none;
+        }
+        >div{
+            margin: 20px 20px;
+        }
+        h4{
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+        input{
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            margin-top: 15px;
+            width: 170px;
+        }
+        .save{
+            display: flex;
+            justify-content: space-between;
+            background: #FAFAFA;
+            margin: 0;
+            padding: 10px;
+            border-top: 1px solid #ccc;
+            *{
+                margin: 0 10px;
+            }
+            button{
+                border: 1px solid rgb(43, 43, 43);
+                border-radius: 5px;
+                padding: 5px 20px;
+                height: 2rem;
+                color: rgb(255, 255, 255);
+                background: rgb(43, 43, 43);
+                cursor: pointer;
+                font-size: 0.9rem;
+                &:hover{
+                    background: rgb(255, 255, 255);
+                    color: rgb(43, 43, 43);
+                    transition: 0.3s;
+                }
+            }
+        }
+        .passwords{
+            display: flex;
+            flex-direction: column;
+            label{
+                margin-top: 10px;
+            }
+            input{
+                margin: 0;
+            }
+        }
+        .image{
+            position: relative;
+            height: 100px;
+            width: 100px;
+            margin: 15px auto;
+            border: 1px solid rgb(192, 225, 255, 0.8);
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 3px 15px 0 rgb(192, 225, 255);
+        }
+    }
+    .avatar{
+        h3, p{
+            text-align: center;
+        }
+    }
+    .delete{
+        border: 1px solid rgb(255, 89, 89);
+        .save{
+            border-color: rgb(255, 89, 89);
+            button{
+                border: 1px solid rgb(255, 89, 89);
+                color: rgb(255, 255, 255);
+                background: rgb(255, 89, 89);
+                &:hover{
+                    color: rgb(255, 89, 89);
+                }
+            }
+        }
+    }
+}
+.error{
+    color: rgb(255, 89, 89);
+}

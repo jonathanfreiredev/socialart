@@ -89,7 +89,6 @@ export default NextAuth({
         id: null,
         username: null,
         image: null,
-        favourites: null
       };
       const result = _.pick(user, _.keys(model));
       session.user.user = result;

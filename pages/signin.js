@@ -2,7 +2,7 @@ import Authentication from "../components/Authentication"
 import Head from 'next/head'
 import Layout from '../components/Layout'
 
-export default function signin(){
+export default function Signin(){
     return <div>
         <Head>
             <title>Sign in - Jonathan Freire</title>
