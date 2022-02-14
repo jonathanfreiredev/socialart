@@ -82,19 +82,32 @@ export default NextAuth({
   callbacks: {
     // async signIn(user, account, profile) { return user },
     // async redirect(url, baseUrl) { return baseUrl },
-    async session(session, token) { 
-      await dbConnect();
-      var user = await User.findOne({username: session.user.name});
+    async jwt(token, user) {
       const model = {
         id: null,
         username: null,
         image: null,
       };
-      const result = _.pick(user, _.keys(model));
-      session.user.user = result;
+      let createUser;
+      await dbConnect();
+      /* If signIn(), create a new user session */
+      if (user !== undefined){
+        createUser = await User.findOne({username: user.name});
+      }else{
+        /* If not signIn(), only update the data session */
+        createUser = await User.findOne({id: token.user.id});
+        if(token.name !== createUser.username){
+          token.name = createUser.username;
+        }
+      }
+      token.user = _.pick(createUser, _.keys(model));
+      return token;
+    },
+    async session(session, token) { 
+      session.user.user = token.user;
       return session;
     },
   },
   theme: 'auto',
-  debug: false,
+  debug: true,
 })

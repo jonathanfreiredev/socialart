@@ -56,6 +56,14 @@
                     color: rgb(43, 43, 43);
                     transition: 0.3s;
                 }
+                hr{
+                    border-style: none;
+                    border-top-style: dotted;
+                    border-color: #d8d8d8;
+                    border-width: 6px;
+                    width: 30px;
+                    animation: loadingButton 1s infinite ease-in;
+                }
             }
         }
         .passwords{
@@ -101,4 +109,10 @@
 }
 .error{
     color: rgb(255, 89, 89);
+}
+
+@keyframes loadingButton{
+    0%{opacity: 0.1;}
+    50%{opacity: 1;}
+    100%{opacity: 0.1;}
 }

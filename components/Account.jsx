@@ -1,8 +1,7 @@
 import styles from "../styles/Account.module.scss"
 import Image from "next/image"
 import { useState } from "react"
-import dbConnect from '../utils/dbConnect'
-import User from "../models/User"
+import { session as updateSession } from "next-auth/client"
 
 export default function Account ({session}){
     const [form, setForm] = useState({
@@ -14,6 +13,24 @@ export default function Account ({session}){
     const [lastPassword, setLastPassword] = useState("");
     const [errorName, setErrorName] = useState("");
     const [errorPassword, setErrorPassword] = useState("");
+    const [loadingNameChange, setLoadingNameChange] = useState(false)
+    
+    /* Edit user */ 
+    const putUser = async (data) => {
+        try {
+          const res = await fetch(`/api/users/${session.user.user.id}`, {
+            method: 'PUT',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          })
+          return res;
+        } catch (error) {
+          console.log(error);
+        }
+    }
 
     const handleForm = (e)=>{
         const name = e.target.name;
@@ -28,7 +45,22 @@ export default function Account ({session}){
     }
 
     const submitName = async()=>{
-        
+        setLoadingNameChange(true);
+        if(form.name !== ""){
+            if(form.name !== session.user.name){
+                const res = await putUser({username: form.username});
+                if(res.ok){
+                    // Update auth with the new username
+                    await updateSession();
+                    setErrorName("");
+                    setLoadingNameChange(false);
+                }
+            }else{
+                setErrorName("The chosen username is the same as the previous one.")
+            }
+        }else{
+            setErrorName("You must choose an username.")
+        }
     }
     const submitPassword = ()=>{
 
@@ -63,9 +95,13 @@ export default function Account ({session}){
                 </div>
                 <div className={styles.save}>
                     <p>You can use your account to log in to all apps.</p>
-                    {errorName !== "" && <p className={style.error}>{errorName}</p>}
+                    {errorName !== "" && <p className={styles.error}>{errorName}</p>}
                     <button type="button" onClick={submitName}>
-                        Save
+                        {loadingNameChange ?
+                            <hr></hr>
+                        :
+                            `Save`
+                        }
                     </button>
                 </div>
             </div>
