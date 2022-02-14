@@ -109,5 +109,5 @@ export default NextAuth({
     },
   },
   theme: 'auto',
-  debug: true,
+  debug: false,
 })

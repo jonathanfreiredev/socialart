@@ -6,14 +6,17 @@ import { session as updateSession } from "next-auth/client"
 export default function Account ({session}){
     const [form, setForm] = useState({
         username: session.user.name,
+        lastPassword: "",
         password: "",
         repeatPassword: "",
         image: session.user.image
     });
-    const [lastPassword, setLastPassword] = useState("");
     const [errorName, setErrorName] = useState("");
+    const [nameChangeSuccessfully, setNameChangeSuccessfully] = useState("");
+    const [loadingNameChange, setLoadingNameChange] = useState(false);
     const [errorPassword, setErrorPassword] = useState("");
-    const [loadingNameChange, setLoadingNameChange] = useState(false)
+    const [passwordChangeSuccessfully, setPasswordChangeSuccessfully] = useState("");
+    const [loadingPasswordChange, setLoadingPasswordChange] = useState(false);
     
     /* Edit user */ 
     const putUser = async (data) => {
@@ -25,7 +28,8 @@ export default function Account ({session}){
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(data),
-          })
+          }).then(response => response.json())
+          .then(data => data.message);
           return res;
         } catch (error) {
           console.log(error);
@@ -40,30 +44,51 @@ export default function Account ({session}){
             [name]: value
         })
     }
-    const handleLastPassword = (e)=>{
-        setLastPassword(e.target.value);
-    }
 
     const submitName = async()=>{
         setLoadingNameChange(true);
-        if(form.name !== ""){
-            if(form.name !== session.user.name){
-                const res = await putUser({username: form.username});
-                if(res.ok){
-                    // Update auth with the new username
-                    await updateSession();
-                    setErrorName("");
-                    setLoadingNameChange(false);
-                }
+        setNameChangeSuccessfully("");
+        if(form.username !== ""){
+            const res = await putUser({username: form.username});
+            if(!res){
+                // Update auth with the new username
+                await updateSession();
+                setErrorName("");
+                setNameChangeSuccessfully("The username was changed successfully.")
             }else{
-                setErrorName("The chosen username is the same as the previous one.")
+                setErrorName(res);
             }
         }else{
             setErrorName("You must choose an username.")
         }
+        setLoadingNameChange(false);
     }
-    const submitPassword = ()=>{
-
+    const submitPassword = async()=>{
+        setLoadingPasswordChange(true);
+        setPasswordChangeSuccessfully("");
+        if(form.password.length > 5){
+            if(form.password === form.repeatPassword){
+                if(form.lastPassword !== form.password){
+                    const res = await putUser({
+                        password: form.password,
+                        lastPassword: form.lastPassword
+                    });
+                    if(!res){
+                        setErrorPassword("");
+                        setPasswordChangeSuccessfully("The password was changed successfully.")
+                    }else{
+                        setErrorPassword(res);
+                    }
+                }else{
+                    setErrorPassword("Current password and new password are the same.");
+                }
+            }else{
+                setErrorPassword("The fields of the new password don't match.");
+            }
+        }else{
+            setErrorPassword("Password must have minumum 6 letters.");
+        }
+        setLoadingPasswordChange(false);
     }
 
     const submitDeleteAccount = ()=>{
@@ -94,8 +119,11 @@ export default function Account ({session}){
                     <input type="text" name="username" value={form.username} onChange={handleForm} />
                 </div>
                 <div className={styles.save}>
-                    <p>You can use your account to log in to all apps.</p>
-                    {errorName !== "" && <p className={styles.error}>{errorName}</p>}
+                    <div>
+                        <p>You can use your account to log in to all apps.</p>
+                        {errorName !== "" && <p className={styles.error}>{errorName}</p>}
+                        {nameChangeSuccessfully !== "" && <p className={styles.success}>{nameChangeSuccessfully}</p>}
+                    </div>
                     <button type="button" onClick={submitName}>
                         {loadingNameChange ?
                             <hr></hr>
@@ -114,7 +142,7 @@ export default function Account ({session}){
                     <div className={styles.passwords}>
                         <label>
                             <p>Your password:</p>
-                            <input type="password" name="lastPassword" value={form.lastPassword} onChange={handleLastPassword} />
+                            <input type="password" name="lastPassword" value={form.lastPassword} onChange={handleForm} />
                         </label>
                         <label>
                             <p>New password:</p>
@@ -127,9 +155,17 @@ export default function Account ({session}){
                     </div>
                 </div>
                 <div className={styles.save}>
-                    <p>Please use 6 characters at minimum and use a secure password.</p>
+                    <div>
+                        <p>Please use 6 characters at minimum and use a secure password.</p>
+                        {errorPassword !== "" && <p className={styles.error}>{errorPassword}</p>}
+                        {passwordChangeSuccessfully !== "" && <p className={styles.success}>{passwordChangeSuccessfully}</p>}
+                    </div>
                     <button type="button" onClick={submitPassword}>
-                        Save
+                        {loadingPasswordChange ?
+                            <hr></hr>
+                        :
+                            `Save`
+                        }
                     </button>
                 </div>
             </div>

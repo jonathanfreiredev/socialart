@@ -65,7 +65,6 @@ export default function Authentication({type}){
                             setErrorPassword("You must choose an avatar");
                         }
                     }else{
-                        console.log("entro en la igualdad")
                         setErrorPassword("Both passwords don't match");
                     }
                 }else if(type==="signin"){
