@@ -21,7 +21,7 @@ export default function Profile(){
             <title>Profile - Jonathan Freire</title>
             <meta name="description" content="Edit your profile" />
         </Head>
-        <Layout title="Social art." subtitle="Jonathan Freire." refTitle="/">
+        <Layout title="Settings." subtitle="Jonathan Freire." refTitle="/">
             <Account session={session} />
         </Layout>
     </div>

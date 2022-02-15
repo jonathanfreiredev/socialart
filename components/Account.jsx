@@ -259,7 +259,7 @@ export default function Account ({session}){
                     <p>This action has no turning back.</p>
                     {!deleteSelected ?
                         <button type="button" onClick={handleSelectDelete}>
-                            Delete Account
+                            Delete
                         </button>
                     :
                         <div className={styles.removeQuestion}>

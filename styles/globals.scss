@@ -18,8 +18,8 @@ a {
   text-decoration: none;
 }
 
-p{
-  font-size: 0.9rem;
+p, li{
+  font-size: 1.1rem;
   line-height: 20px;
 }
 
@@ -64,7 +64,6 @@ input[type=text]::placeholder,
 
 @media (min-width: 570px){
   p{
-    font-size: 1.1rem;
     line-height: 25px;
   }
   h3, h4, h5, h6{

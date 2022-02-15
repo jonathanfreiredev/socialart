@@ -6,7 +6,8 @@
     border-top: 1px solid #ccc;
 }
 .container{
-    width: 80%;
+    width: 85%;
+    max-width: 1000px;
     margin-top: 60px;
     text-align: center;
     h4{
@@ -16,7 +17,6 @@
     font-weight: 300;
 }
 .description{
-    width: 95%;
     margin: 0 auto 80px auto;
     color: #666666;
     p{
