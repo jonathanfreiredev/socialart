@@ -19,6 +19,7 @@ export default function Authentication({type}){
     const [errorPassword, setErrorPassword] = useState("");
     const [selectedAvatar, setSelectedAvatar] = useState("");
     const [consentSignup, setConsentSignup] = useState(false);
+    const [loadingSign, setLoadingSign] = useState(false);
     const avatars = ["james", "jerry", "joe", "jeri", "jazebelle", "jude", "jacques", "jocelyn", "josephine", "jabala", "jake", "josh", "jess", "jodi", "jai", "jordan", "jon", "jeane", "julie", "jana", "jia", "jane", "jean", "jolee", "jed", "jaqueline", "jenni", "jack"]
     const router = useRouter();
     const refAvatars = useRef(null);
@@ -56,8 +57,9 @@ export default function Authentication({type}){
                     if(form.password == form.repeatPassword){
                         if(form.image !== ""){
                             if(consentSignup){
+                                setLoadingSign(true);
                                 setErrorPassword("");
-                                authentication();
+                                await authentication();
                             }else{
                                 setErrorPassword("Please, read and accept the Privacy policy to sign up.");
                             }
@@ -68,6 +70,7 @@ export default function Authentication({type}){
                         setErrorPassword("Both passwords don't match");
                     }
                 }else if(type==="signin"){
+                    setLoadingSign(true);
                     setErrorPassword("");
                     authentication();
                 }
@@ -142,7 +145,13 @@ export default function Authentication({type}){
                             </div>
                         </>
                         }
-                        <input onClick={handleSubmit} type="submit" value={type==="signup" ? "Sign up" : "Sign in"} />
+                        <button onClick={handleSubmit} type="submit">
+                            {loadingSign ?
+                                <hr></hr>
+                            :
+                                type==="signup" ? "Sign up" : "Sign in"
+                            }
+                        </button>
                         {errorPassword && <p>{errorPassword}</p>}
                     </div>
                 </form>

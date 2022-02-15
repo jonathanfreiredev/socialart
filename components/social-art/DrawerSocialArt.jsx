@@ -16,6 +16,7 @@ export default function DrawerSocialArt({mouseOver, mouseOut, canvasRef, isEditi
     const [colors, setColors] = useState([{r:29, g:29, b:29, a:1},{r:88, g:134, b:233, a:1}]);
     const [color, setColor] = useState(defaultColor);
     const [thickness, setThickness] = useState(10);
+    const [loadingSave, setLoadingSave] = useState(false);
     const [session, loading] = useSession();
     const router = useRouter();
 
@@ -100,6 +101,7 @@ export default function DrawerSocialArt({mouseOver, mouseOut, canvasRef, isEditi
 
     /* Canvas Functions */
     const save = async(dataImage)=>{
+        setLoadingSave(true);
         if(session){
             const canvas = canvasRef.current.getSaveData();
             clear();
@@ -123,6 +125,7 @@ export default function DrawerSocialArt({mouseOver, mouseOut, canvasRef, isEditi
         }else{
             router.push("/#authentication");
         }
+        setLoadingSave(false);
     }
     const clear = ()=>{
         canvasRef.current.eraseAll();
@@ -165,9 +168,15 @@ export default function DrawerSocialArt({mouseOver, mouseOut, canvasRef, isEditi
                 <div className={styles.content}>
                     <div className={cn(styles.containerElements, styles.containerColumn)}>
                         <div className={styles.containerElements}>
-                            <input className={styles.button} onClick={clear} type="submit" value="Clear" />
-                            <input className={styles.button} onClick={undo} type="submit" value="Undo" />
-                            <input className={styles.button} onClick={()=>save(canvasRef.current.getDataURL())} type="submit" value="Save" />
+                            <button className={styles.button} onClick={clear} type="submit">Clear</button>
+                            <button className={styles.button} onClick={undo} type="submit">Undo</button>
+                            <button className={styles.button} onClick={()=>save(canvasRef.current.getDataURL())} type="submit">
+                                {loadingSave ?
+                                    <hr></hr>
+                                :
+                                    "Save"
+                                }
+                            </button>
                         </div>
                     </div>
                     <div className={cn(styles.containerElements, styles.containerColumn)}>

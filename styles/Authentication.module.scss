@@ -131,11 +131,19 @@
         margin-bottom: 15px;
         text-align: center;
     }
-    input[type=submit] {
+    button[type=submit] {
         @include submit();
         margin-bottom: 8px;
+        hr{
+            border-style: none;
+            border-top-style: dotted;
+            border-color: #ffffff;
+            border-width: 8px;
+            width: 50px;
+            animation: loadingButton 1s infinite ease-in;
+        }
     }
-    input[type=submit]:hover {
+    button[type=submit]:hover {
         @include submit-hover();
     }
     >p{
@@ -160,4 +168,10 @@
 }
 .create:hover{
     @include submit-hover();
+}
+
+@keyframes loadingButton{
+    0%{opacity: 0.1;}
+    50%{opacity: 1;}
+    100%{opacity: 0.1;}
 }

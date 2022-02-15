@@ -9,11 +9,11 @@ import cn from "classnames"
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { decompressFromUTF16 } from 'lz-string'
-import { set } from 'mongoose'
 
 export default function CardFrameArt({ onEdit, frame, user}){
     const [liked, setLiked] = useState(false);
     const [deleteSelected, setDeleteSelected] = useState(false);
+    const [loadingDelete, setLoadingDelete] = useState(false);
     const contentType = 'application/json';
     const router = useRouter();
     /* Handles */
@@ -52,6 +52,7 @@ export default function CardFrameArt({ onEdit, frame, user}){
 
     /* Delete */
     const deleteFrame = async (frameData) => {
+        setLoadingDelete(true);
         try {
             await fetch("/api/delete-image",{
                 method:"POST",
@@ -60,6 +61,7 @@ export default function CardFrameArt({ onEdit, frame, user}){
             await fetch(`/api/frames/${frameData.id}`, {
                 method: 'Delete',
             })
+            setLoadingDelete(false);
         } catch (error) {
           console.log(error);
         }
@@ -139,7 +141,13 @@ export default function CardFrameArt({ onEdit, frame, user}){
                     <div className={styles.removeFrame}>
                         <p>Are you sure you want to remove it?</p>
                         <div>
-                            <button type="button" onClick={()=>deleteFrame(frame)} className={styles.yes}>YES</button>
+                            <button type="button" onClick={()=>deleteFrame(frame)} className={styles.yes}>
+                                {loadingDelete ?
+                                    <hr></hr>
+                                :
+                                    "YES"
+                                }
+                            </button>
                             <button type="button" onClick={handleDeleteFrame} className={styles.no}>NO</button>
                         </div>
                     </div>

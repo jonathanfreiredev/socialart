@@ -87,6 +87,14 @@
         border-radius: 10px;
         transition: 0.2s border-radius;
     }
+    hr{
+        border-style: none;
+        border-top-style: dotted;
+        border-color: #ffffff;
+        border-width: 8px;
+        width: 32px;
+        animation: loadingButton 1s infinite ease-in;
+    }
 }
 .newDraw{
     padding: 8px 15px;
@@ -134,4 +142,10 @@
     .content{
         margin: 50px auto;
     }
+}
+
+@keyframes loadingButton{
+    0%{opacity: 0.1;}
+    50%{opacity: 1;}
+    100%{opacity: 0.1;}
 }
