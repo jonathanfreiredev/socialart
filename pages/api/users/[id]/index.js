@@ -1,5 +1,5 @@
-import dbConnect from '../../../utils/dbConnect'
-import User from '../../../models/User'
+import dbConnect from '../../../../utils/dbConnect'
+import User from '../../../../models/User'
 import { getSession } from "next-auth/client"
 import crypto from "crypto"
 
@@ -7,7 +7,7 @@ export default async function handler(req, res) {
   const { method } = req;
   await dbConnect();
   const session = await getSession({ req });
-  const user = await User.findOne({username: session.user.name});
+  const user = await User.findOne({id: session.user.user.id});
   switch (method) {
     case 'PUT' /* Edit a model by its ID */:
       try {
@@ -41,23 +41,33 @@ export default async function handler(req, res) {
             return res.status(403).json({ success: false, message: "You have introduce the current password wrong." });
           }
         }
-
         if(user){
           // User uthentication
           if(user.id === req.query.id){
-            const obj = await User.findOneAndUpdate({id: req.query.id}, {$set: body}, {
-              new: true,
-            });
-            if (!obj) {
-              return res.status(400).json({ success: false })
-            }
-            res.status(200).json({ success: true})
+            await User.updateOne({id: req.query.id}, {$set: body});
+            return res.status(200).json({ success: true})
           }
         }else{
           res.status(400).json({ success: false });
         }
       } catch (error) {
         console.log("error: ",error)
+        res.status(400).json({ success: false })
+      }
+      break
+
+    case 'DELETE' /* Delete a model by its ID */:
+      try {
+        if(user){
+          // User uthentication
+          if(user.id === req.query.id){
+            await User.deleteOne({"id":req.query.id});
+            return res.status(200).json({ success: true});
+          }
+        }else{
+          res.status(400).json({ success: false });
+        }
+      } catch (error) {
         res.status(400).json({ success: false })
       }
       break

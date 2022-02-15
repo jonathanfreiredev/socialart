@@ -7,6 +7,7 @@ const UserSchema = new mongoose.Schema({
   image: String,
   password: String,
   salt: String,
+  drawings: [String],
 })
 
 export default mongoose.models.User || mongoose.model('User', UserSchema)

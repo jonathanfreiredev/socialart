@@ -8,7 +8,7 @@ export default async function handler(req, res) {
   const { method } = req;
   await dbConnect();
   const session = await getSession({ req });
-  const user = await User.findOne({username: session.user.name});
+  const user = await User.findOne({id: session.user.user.id});
 
   switch (method) {
     case 'GET' /* Get a model by its ID */:
@@ -24,10 +24,12 @@ export default async function handler(req, res) {
       break
 
     case 'PUT' /* Edit a model by its ID */:
-      req.body.dataFrame = compressToUTF16(req.body.dataFrame)
+      if(req.body.dataFrame){
+        req.body.dataFrame = compressToUTF16(req.body.dataFrame)
+      }
       try {
         if(user){
-          const frame = await Frame.findOneAndUpdate({id: req.query.id}, req.body, {
+          const frame = await Frame.findOneAndUpdate({id: req.query.id}, {$set: req.body}, {
             new: true,
             runValidators: true,
           });
@@ -46,7 +48,8 @@ export default async function handler(req, res) {
     case 'DELETE' /* Delete a model by its ID */:
       try {
         if(user){
-          const deletedFrame = await Frame.deleteOne({id: req.body.id})
+          await User.updateOne({"id": user.id}, {$pull: {"drawings": req.query.id}});
+          const deletedFrame = await Frame.deleteOne({"id": req.query.id})
           if (!deletedFrame) {
             return res.status(400).json({ success: false })
           }

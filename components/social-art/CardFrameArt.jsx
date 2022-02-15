@@ -53,17 +53,12 @@ export default function CardFrameArt({ onEdit, frame, user}){
     /* Delete */
     const deleteFrame = async (frameData) => {
         try {
-            fetch("/api/delete-image",{
+            await fetch("/api/delete-image",{
                 method:"POST",
                 body: frameData.dataImage.public_id
             })
             await fetch(`/api/frames/${frameData.id}`, {
                 method: 'Delete',
-                headers: {
-                    Accept: contentType,
-                    'Content-Type': contentType,
-                },
-                body: JSON.stringify(frameData),
             })
         } catch (error) {
           console.log(error);
@@ -110,6 +105,7 @@ export default function CardFrameArt({ onEdit, frame, user}){
                 layout='responsive'
                 width={380}
                 height={450}
+                priority
             >
             </Image>
         </div>

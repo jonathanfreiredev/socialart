@@ -93,14 +93,15 @@ export default NextAuth({
       /* If signIn(), create a new user session */
       if (user !== undefined){
         createUser = await User.findOne({username: user.name});
+        token.user = _.pick(createUser, _.keys(model));
       }else{
         /* If not signIn(), only update the data session */
         createUser = await User.findOne({id: token.user.id});
         if(token.name !== createUser.username){
           token.name = createUser.username;
+          token.user.username = createUser.username;
         }
       }
-      token.user = _.pick(createUser, _.keys(model));
       return token;
     },
     async session(session, token) { 

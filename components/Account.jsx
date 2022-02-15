@@ -1,7 +1,7 @@
 import styles from "../styles/Account.module.scss"
 import Image from "next/image"
 import { useState } from "react"
-import { session as updateSession } from "next-auth/client"
+import { session as updateSession, signOut } from "next-auth/client"
 import InputPassword from "./InputPassword"
 
 export default function Account ({session}){
@@ -18,8 +18,21 @@ export default function Account ({session}){
     const [errorPassword, setErrorPassword] = useState("");
     const [passwordChangeSuccessfully, setPasswordChangeSuccessfully] = useState("");
     const [loadingPasswordChange, setLoadingPasswordChange] = useState(false);
+    const [deleteSelected, setDeleteSelected] = useState(false);
     
-    
+    /* Get User's Frames */
+    const getUserFrames = async ()=>{
+        try {
+            const res = await fetch(`/api/users/${session.user.user.id}/frames`, {
+              method: 'GET',
+            }).then(response => response.json())
+            .then(data => data.data);
+            return res;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     /* Edit user */ 
     const putUser = async (data) => {
         try {
@@ -33,6 +46,54 @@ export default function Account ({session}){
           }).then(response => response.json())
           .then(data => data.message);
           return res;
+        } catch (error) {
+          console.log(error);
+        }
+    }
+    /* Edit username Frame */
+    const editUsernameFrame = async (dataUser, frame) => {
+        try {
+          const res = await fetch(`/api/frames/${frame}`, {
+                method: 'PUT',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(dataUser),
+            }).then(response => response.json()).then(data => data.data);
+            return res;
+        } catch (error) {
+          console.log(error);
+        }
+    }
+
+    /* Delete User */
+    const deleteUser = async () => {
+        try {
+          const res = await fetch(`/api/users/${session.user.user.id}`, {
+            method: 'DELETE',
+          })
+          if(!res.ok){
+            console.log(res);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+    }
+
+    /* Delete Frame */
+    const deleteFrame = async (frameData) => {
+        try {
+            const frame = await fetch(`/api/frames/${frameData}`,{
+                method:"GET",
+            }).then(res => res.json()).then(data => data.data);
+            await fetch("/api/delete-image",{
+                method:"POST",
+                body: frame.dataImage.public_id
+            })
+            await fetch(`/api/frames/${frameData}`, {
+                method: 'DELETE',
+            })
         } catch (error) {
           console.log(error);
         }
@@ -53,6 +114,10 @@ export default function Account ({session}){
         if(form.username !== ""){
             const res = await putUser({username: form.username});
             if(!res){
+                const userFrames = await getUserFrames();
+                userFrames.forEach(async(frame)=>{
+                    await editUsernameFrame({user: form.username}, frame);
+                })
                 // Update auth with the new username
                 await updateSession();
                 setErrorName("");
@@ -99,11 +164,25 @@ export default function Account ({session}){
         setLoadingPasswordChange(false);
     }
 
-    const submitDeleteAccount = ()=>{
-
+    const submitDeleteAccount = async() => {
+        const userFrames = await getUserFrames();
+        if(userFrames.length > 0){
+            // With this "for", deleteUser will wait to delete all frames
+            for(let i=0; i<userFrames.length;i++){
+                await deleteFrame(userFrames[i]);
+                if(i === userFrames.length-1){
+                    await deleteUser();
+                    signOut({redirect: true});
+                }
+            }
+        }else{
+            await deleteUser();
+        }
     }
 
-    
+    const handleSelectDelete = ()=>{
+        setDeleteSelected(!deleteSelected);
+    }
 
     return <div className={styles.root}>
         <div className={styles.container}>
@@ -178,9 +257,19 @@ export default function Account ({session}){
                 </div>
                 <div className={styles.save}>
                     <p>This action has no turning back.</p>
-                    <button type="button" onClick={submitDeleteAccount}>
-                        Delete Account
-                    </button>
+                    {!deleteSelected ?
+                        <button type="button" onClick={handleSelectDelete}>
+                            Delete Account
+                        </button>
+                    :
+                        <div className={styles.removeQuestion}>
+                            <p>Are you sure you want to remove it?</p>
+                            <div>
+                                <button type="button" onClick={submitDeleteAccount} className={styles.yes}>YES</button>
+                                <button type="button" onClick={handleSelectDelete} className={styles.no}>NO</button>
+                            </div>
+                        </div>
+                    }    
                 </div>
             </div>
         </div>
