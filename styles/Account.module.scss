@@ -30,7 +30,8 @@
             border-radius: 5px;
             outline: none;
             margin-top: 15px;
-            width: 170px;
+            width: 70%;
+            max-width: 170px;
         }
         .save{
             display: flex;
@@ -72,8 +73,20 @@
             label{
                 margin-top: 10px;
             }
-            input{
-                margin: 0;
+            div{
+                display: flex;
+                input{
+                    margin: 0;
+                    border-radius: 5px 0 0 5px;
+                }
+                .showPassword{
+                    width: 30px;
+                    border-radius: 0 5px 5px 0;
+                    border-left: 0;
+                    border:1px solid #ccc;
+                    border-left: 0;
+                    cursor: pointer;
+                }
             }
         }
         .image{

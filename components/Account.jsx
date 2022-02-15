@@ -2,6 +2,7 @@ import styles from "../styles/Account.module.scss"
 import Image from "next/image"
 import { useState } from "react"
 import { session as updateSession } from "next-auth/client"
+import InputPassword from "./InputPassword"
 
 export default function Account ({session}){
     const [form, setForm] = useState({
@@ -17,6 +18,7 @@ export default function Account ({session}){
     const [errorPassword, setErrorPassword] = useState("");
     const [passwordChangeSuccessfully, setPasswordChangeSuccessfully] = useState("");
     const [loadingPasswordChange, setLoadingPasswordChange] = useState(false);
+    
     
     /* Edit user */ 
     const putUser = async (data) => {
@@ -75,7 +77,13 @@ export default function Account ({session}){
                     });
                     if(!res){
                         setErrorPassword("");
-                        setPasswordChangeSuccessfully("The password was changed successfully.")
+                        setPasswordChangeSuccessfully("The password was changed successfully.");
+                        setForm({
+                            ...form,
+                            ["lastPassword"]: "",
+                            ["password"]: "",
+                            ["repeatPassword"]: "",
+                        });
                     }else{
                         setErrorPassword(res);
                     }
@@ -94,6 +102,8 @@ export default function Account ({session}){
     const submitDeleteAccount = ()=>{
 
     }
+
+    
 
     return <div className={styles.root}>
         <div className={styles.container}>
@@ -140,18 +150,9 @@ export default function Account ({session}){
                     <p>Your password is encrypted and secure.</p>
                     <p>If you want to change it, please enter your current password first. Then the new password.</p>
                     <div className={styles.passwords}>
-                        <label>
-                            <p>Your password:</p>
-                            <input type="password" name="lastPassword" value={form.lastPassword} onChange={handleForm} />
-                        </label>
-                        <label>
-                            <p>New password:</p>
-                            <input type="password" name="password" value={form.password} onChange={handleForm} />
-                        </label>
-                        <label>
-                            <p>Repeat new password:</p>
-                            <input type="password" name="repeatPassword" value={form.repeatPassword} onChange={handleForm} />
-                        </label>
+                        <InputPassword title="Your password:" name="lastPassword" value={form.lastPassword} handleChange={handleForm} />
+                        <InputPassword title="New password:" name="password" value={form.password} handleChange={handleForm} />
+                        <InputPassword title="Repeat new password:" name="repeatPassword" value={form.repeatPassword} handleChange={handleForm} />
                     </div>
                 </div>
                 <div className={styles.save}>
