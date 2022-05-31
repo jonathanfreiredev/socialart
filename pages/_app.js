@@ -16,7 +16,7 @@ function MyApp({ Component, pageProps }) {
       <script 
         type="text/javascript" 
         dangerouslySetInnerHTML={{ __html: `
-          let cpm={};(function(a,c,d){var b=a.getElementsByTagName("script")[0];a=a.createElement("script");a.async=!0;a.src="${dev}cd2129af.js";a.onload=function(){c.cookiehub.load(d)};b.parentNode.insertBefore(a,b)})(document,window,cpm);
+          let cpm={};(function(a,c,d){var b=a.getElementsByTagName("script")[0];a=a.createElement("script");a.async=!0;a.src="${dev}c3f6f836.js";a.onload=function(){c.cookiehub.load(d)};b.parentNode.insertBefore(a,b)})(document,window,cpm);
         `}}
       >
       </script>
