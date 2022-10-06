@@ -22,15 +22,13 @@ You can fork this repo to modify and make changes of your own. I hope you enjoy 
 
 ## Built With
 
-Social Art is a social network that allows you to draw and show your creativity. You also can edit or delete them and give likes to works that you like the most.
+Social Art is a social network that allows you to draw and show your creativity. You also can give likes to works that you like the most.
 
 This project was built using these technologies.
 
 - React.js
 - Node.js
 - Next.js
-- SWR
-- NextAuth.js
 - Cloudinary
 - mongoose
 - react-canvas-draw
@@ -39,7 +37,6 @@ This project was built using these technologies.
 - crypto-js
 - uuid
 - Sass
-- react-cookie-consent
 - VsCode
 - Vercel
 
@@ -48,8 +45,6 @@ This project was built using these technologies.
 **🎨 Styled with SCSS**
 
 **📱 Fully Responsive**
-
-**🛡 Authentication with NextAuth**
 
 **📷 Images upload to Cloudinary**
 
@@ -60,7 +55,7 @@ Clone down this repository. You will need `node.js` and `git` installed globally
 ## 🛠 Installation and Setup Instructions
 
 1. Installation: `npm install`
-2. You have to create a .env.development file in the parameters: `MONGODB_URI`,`SECRET`, `JWT_SIGNING_PRIVATE_KEY`, `CLOUDINARY_URL`, `CLOUDINARY_NAME`, `CLOUDINARY_API_KEY` and `CLOUDINARY_API_SECRET`. And also: `NEXTAUTH_URL="http://localhost:3000"`.
+2. You have to create a .env.development file in the parameters: `MONGODB_URI`, `CLOUDINARY_URL`, `CLOUDINARY_NAME`, `CLOUDINARY_API_KEY` and `CLOUDINARY_API_SECRET`.
 You will need to create an account in MongoDB and Cloudinary.
 2. In the project directory, you can run: `npm start` or `npm run dev`
 

@@ -52,7 +52,7 @@ function useGetWidth(){
   return width;
 }
 
-export async function getStaticProps(){
+export async function getServerSideProps(){
   await dbConnect();
   const data = await Frame.find({});
   const frames = data.map((element) => {
