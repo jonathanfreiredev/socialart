@@ -145,7 +145,7 @@ export default function DrawerSocialArt({canvasRef, width}){
                     </>
                 :
                     <div className={styles.saving}>
-                        <p>What's your name?</p>
+                        <p>{"What's your name?"}</p>
                         <label htmlFor="username"></label>
                         <input type="text" id="username" name="username" placeholder="Username" value={username} onChange={handleUsername} />
                         <button className={styles.button} onClick={()=>save(canvasRef.current.getDataURL())} type="submit">

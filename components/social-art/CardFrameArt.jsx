@@ -46,6 +46,7 @@ export default function CardFrameArt({frame}){
             <Image 
                 src={frame.dataImage.url}
                 layout='responsive'
+                alt="frame-card"
                 width={380}
                 height={450}
                 priority
