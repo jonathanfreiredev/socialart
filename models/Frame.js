@@ -9,7 +9,7 @@ const FrameSchema = new mongoose.Schema({
         url: String,
         public_id: String
     },
-    likes: [String], //likes is an array of USERS'S ID.
+    likes: Number,
     dataFrame: String,
 })
 

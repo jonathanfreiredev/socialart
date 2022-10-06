@@ -6,18 +6,19 @@ import ColorCircle from "./ColorCircle"
 import { RgbaColorPicker } from "react-colorful"
 import SliderPencil from "./SliderPencil"
 import { v4 as uuidv4 } from 'uuid'
-import { useSession } from "next-auth/client"
 import cn from "classnames"
-import LoginRequest from "../LoginRequest"
 
-export default function DrawerSocialArt({mouseOver, mouseOut, canvasRef, isEditing, onIsEditing, frameInEdit, width}){
+export default function DrawerSocialArt({canvasRef, width}){
     const contentType = 'application/json';
     const defaultColor ={r:121, g:136, b:210, a:1};
     const [colors, setColors] = useState([{r:29, g:29, b:29, a:1},{r:88, g:134, b:233, a:1}]);
     const [color, setColor] = useState(defaultColor);
     const [thickness, setThickness] = useState(10);
     const [loadingSave, setLoadingSave] = useState(false);
-    const [session, loading] = useSession();
+    const [isSaving, setIsSaving] = useState(false);
+    const [username, setUsername] = useState("");
+    const [errorUsername, setErrorUsername] = useState(false);
+    const avatars = ["james", "jerry", "joe", "jeri", "jazebelle", "jude", "jacques", "jocelyn", "josephine", "jabala", "jake", "josh", "jess", "jodi", "jai", "jordan", "jon", "jeane", "julie", "jana", "jia", "jane", "jean", "jolee", "jed", "jaqueline", "jenni", "jack"]
     const router = useRouter();
 
     /* POST a new frame to mongoDB */
@@ -40,26 +41,6 @@ export default function DrawerSocialArt({mouseOver, mouseOut, canvasRef, isEditi
         }
     }
 
-    /* PUT a existing frame to mongoDB */
-    const putFrame = async (data) => {
-        try {
-          const res = await fetch(`/api/frames/${data.id}`, {
-            method: 'PUT',
-            headers: {
-              Accept: contentType,
-              'Content-Type': contentType,
-            },
-            body: JSON.stringify(data),
-          });
-          
-          // Throw error with status code in case Fetch API req failed
-          if (!res.ok) {
-            throw new Error(res.status);
-          }
-        } catch (error) {
-          console.log(error);
-        }
-    }
     /* POST Image to Cloudinary */
     const uploadImage = async (dataImage)=>{
         try{
@@ -79,53 +60,27 @@ export default function DrawerSocialArt({mouseOver, mouseOut, canvasRef, isEditi
             console.log(error);
         }
     }
-    const updateImage = async (dataImage)=>{
-        try{
-            deleteImage();
-            const image = await uploadImage(dataImage);
-            return image;
-        } catch (error) {
-            console.log(error);
-        }
-    }
-    const deleteImage = async ()=>{
-        try{
-            await fetch("/api/delete-image",{
-                    method:"POST",
-                    body: frameInEdit.dataImage.public_id
-                })
-        } catch (error) {
-            console.log(error);
-        }
+
+    const handleUsername = (e) => {
+        setUsername(e.target.value);
     }
 
     /* Canvas Functions */
     const save = async(dataImage)=>{
-        setLoadingSave(true);
-        if(session){
+        if(username == "") {
+            setErrorUsername(true);
+        }else{
+            setLoadingSave(true);
             const canvas = canvasRef.current.getSaveData();
             clear();
-            if(isEditing) {
-                const resFrame = await fetch(`/api/frames/${frameInEdit.id}`,{
-                    method:"GET",
-                }).then(response => response.json())
-                .then(data => {
-                  return data.data
-                });
-                resFrame.dataFrame = canvas;
-                const image = await updateImage(dataImage);
-                resFrame.dataImage = image;
-                await putFrame(resFrame);
-                onIsEditing(false);
-            }else{
-                const image = await uploadImage(dataImage);
-                await postFrame({id: uuidv4(), user:session.user.name, userImage: session.user.image, dataFrame: canvas, dataImage: image, likes: []});
-            }
-            router.push("/#board-frames");
-        }else{
-            router.push("/#authentication");
+            const image = await uploadImage(dataImage);
+            await postFrame({id: uuidv4(), user: username, userImage: `https://joeschmoe.io/api/v1/${avatars[Math.floor(Math.random() * avatars.length)]}`, dataFrame: canvas, dataImage: image, likes: 0});
+            setLoadingSave(false);
+            router.reload();
         }
-        setLoadingSave(false);
+    }
+    const saving = ()=>{
+        setIsSaving(!isSaving);
     }
     const clear = ()=>{
         canvasRef.current.eraseAll();
@@ -148,11 +103,6 @@ export default function DrawerSocialArt({mouseOver, mouseOut, canvasRef, isEditi
     const handleChangeThickness = (val)=>{
         setThickness(Number(val));
     }
-    /* NEW DRAW */
-    const handleNewDraw = ()=>{
-        canvasRef.current.clear();
-        onIsEditing(false);
-    }   
 
     return <section id="drawer" className={styles.root}>
         <div className={styles.contentTitle}>
@@ -160,45 +110,57 @@ export default function DrawerSocialArt({mouseOver, mouseOut, canvasRef, isEditi
                 Create your own canvas
             </h3>
         </div>
-        {!session &&
-            <LoginRequest text="You have to be logged in to create your own canvas" />
-        }
-        <div className={!session ? cn(styles.container, styles.disabledContainer): styles.container}>
+        <div className={styles.container}>
             <div className={styles.editor}>
                 <div className={styles.content}>
-                    <div className={cn(styles.containerElements, styles.containerColumn)}>
-                        <div className={styles.containerElements}>
-                            <button className={styles.button} onClick={clear} type="submit">Clear</button>
-                            <button className={styles.button} onClick={undo} type="submit">Undo</button>
-                            <button className={styles.button} onClick={()=>save(canvasRef.current.getDataURL())} type="submit">
-                                {loadingSave ?
-                                    <hr></hr>
-                                :
-                                    "Save"
+                {!isSaving ?
+                    <>
+                        <div className={cn(styles.containerElements, styles.containerColumn)}>
+                            <div className={styles.containerElements}>
+                                <button className={styles.button} onClick={clear} type="submit">Clear</button>
+                                <button className={styles.button} onClick={undo} type="submit">Undo</button>
+                                <button className={styles.button} onClick={saving} type="submit">
+                                    {loadingSave ?
+                                        <hr></hr>
+                                    :
+                                        "Save"
+                                    }
+                                </button>
+                            </div>
+                        </div>
+                        <div className={cn(styles.containerElements, styles.containerColumn)}>
+                            <div className={styles.panelColors}>
+                                {
+                                    colors.map((col, index)=> <ColorCircle key={index} color={col} isNewColor={false} onSelectedColor={handleSelectedColor} />)
                                 }
-                            </button>
+                                <ColorCircle color={color} isNewColor={true} onSaveColor={handleSaveColor} />
+                            </div>
+                            <div className={cn("colorPicker", styles.containerElements)}>
+                                <RgbaColorPicker color={color} onChange={handleChangeColorPicker} />
+                            </div>
+                            <div className={styles.containerElements}>
+                                <SliderPencil max={"50"} step={"1"} defaultValue={"10"} onChangeSlider={handleChangeThickness}/>
+                            </div>
                         </div>
-                    </div>
-                    <div className={cn(styles.containerElements, styles.containerColumn)}>
-                        <div className={styles.panelColors}>
-                            {
-                                colors.map((col, index)=> <ColorCircle key={index} color={col} isNewColor={false} onSelectedColor={handleSelectedColor} />)
+                    </>
+                :
+                    <div className={styles.saving}>
+                        <p>What's your name?</p>
+                        <label htmlFor="username"></label>
+                        <input type="text" id="username" name="username" placeholder="Username" value={username} onChange={handleUsername} />
+                        <button className={styles.button} onClick={()=>save(canvasRef.current.getDataURL())} type="submit">
+                            {loadingSave ?
+                                <hr></hr>
+                            :
+                                "Save"
                             }
-                            <ColorCircle color={color} isNewColor={true} onSaveColor={handleSaveColor} />
-                        </div>
-                        <div className={cn("colorPicker", styles.containerElements)}>
-                            <RgbaColorPicker color={color} onChange={handleChangeColorPicker} />
-                        </div>
-                        <div className={styles.containerElements}>
-                            <SliderPencil max={"50"} step={"1"} defaultValue={"10"} onChangeSlider={handleChangeThickness}/>
-                        </div>
+                        </button>
+                        {errorUsername && <p className={styles.error}>Introduce a name</p>}
                     </div>
-                    <button className={cn(styles.button, styles.newDraw)} type="button" onClick={handleNewDraw}>
-                        NEW DRAW
-                    </button>
+                }
                 </div>
             </div>
-            <div onMouseOver={(e)=>mouseOver()} onMouseOut={(e)=>mouseOut()}>
+            <div>
                 <CanvasSocialArt ref={canvasRef} color={color} thickness={thickness} width={width} />
             </div>
         </div>

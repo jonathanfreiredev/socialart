@@ -9,7 +9,7 @@ export default function DescriptionProject({title, description, accordionInfo}){
                 <p>{description}</p>
             </div>
             <Accordion info={accordionInfo} />
-            <p className={styles.updated}>Updated January 27th 2022</p>
+            <p className={styles.updated}>Updated October 06th 2022</p>
        </div>
 </div>
 }
