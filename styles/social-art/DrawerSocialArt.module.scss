@@ -15,9 +15,9 @@
     flex-direction: column;
     margin: 5px 20px 15px;
 }
-.disabledContainer{
-    pointer-events: none;
-    opacity: 0.4;
+p.error{
+    color: rgb(254, 66, 66);
+    font-size: 0.9rem;
 }
 /* Title */
 .contentTitle{
@@ -43,6 +43,21 @@
     margin: 20px auto;
     display: flex;
     flex-direction: column;
+}
+.saving{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    p{
+        font-weight: 500;
+    }
+    input{
+        border: 0;
+        border-radius: 7px;
+        padding: 10px;
+        margin: 10px 0;
+        outline: none;
+    }
 }
 .containerElements{
     display: flex;

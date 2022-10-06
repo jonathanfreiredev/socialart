@@ -1,15 +1,12 @@
 import styles from "../styles/Navbar.module.scss"
 import Link from "next/link"
-import { signOut, useSession } from 'next-auth/client';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+import { faBars } from '@fortawesome/free-solid-svg-icons'
 import React, { useState, useEffect } from 'react'
 import NavbarCollapse from "./NavbarCollapse";
 import MenuResponsive from "./MenuResponsive";
 import ButtonNavbar from "./ButtonNavbar";
 
 export default function Navbar({title, subtitle, refTitle}){
-    const [ session, loading ] = useSession();
     const [windowWidth, setWindowWidth] = useState(0);
     const [openMenuResponsive, setOpenMenuResponsive] = useState(false);
     const links = {
@@ -33,9 +30,6 @@ export default function Navbar({title, subtitle, refTitle}){
             name: "Sign up",
             link: "/signup"
         }
-    }
-    const handleLogout = ()=>{
-        signOut({redirect: true})
     }
     const updateDimensions = () => {
         setWindowWidth(window.innerWidth);
@@ -73,21 +67,6 @@ export default function Navbar({title, subtitle, refTitle}){
                     <div className={styles.nav}>
                         <ButtonNavbar link={links.homejf.link} name={links.homejf.name} />
                         <ButtonNavbar link={links.contact.link} name={links.contact.name} />
-                        {session ?
-                            <>
-                                <ButtonNavbar link={links.profile.link} name={links.profile.name} />
-                                <div className={styles.signout}>
-                                    <div onClick={handleLogout} className={styles.iconLogout}>
-                                        <FontAwesomeIcon icon={faSignOutAlt} />
-                                    </div>
-                                </div>
-                            </>
-                        :
-                            <>
-                                <ButtonNavbar link={links.signin.link} name={links.signin.name} />
-                                <ButtonNavbar link={links.signup.link} name={links.signup.name} />
-                            </>
-                        }
                     </div>
                 :   
                     <NavbarCollapse handleClick={handleOpenCollapseMenu} fa={faBars} />
@@ -95,7 +74,7 @@ export default function Navbar({title, subtitle, refTitle}){
             </div>
         </div>
         {windowWidth <= 700 &&
-            <MenuResponsive session={session} links={links} handleLogout={handleLogout} openMenuResponsive={openMenuResponsive} handleOpenCollapseMenu={handleOpenCollapseMenu} />
+            <MenuResponsive links={links} openMenuResponsive={openMenuResponsive} handleOpenCollapseMenu={handleOpenCollapseMenu} />
         }
     </div>
 }
