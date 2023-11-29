@@ -17,18 +17,6 @@ export default function Navbar({title, subtitle, refTitle}){
         contact:{
             name: "Contact.",
             link: "https://www.jonathanfreire.com/#contact"
-        },
-        profile:{
-            name: "Profile.",
-            link: "/profile"
-        },
-        signin:{
-            name: "Sign in",
-            link: "/signin"
-        },
-        signup:{
-            name: "Sign up",
-            link: "/signup"
         }
     }
     const updateDimensions = () => {

@@ -74,7 +74,7 @@ export default function DrawerSocialArt({canvasRef, width}){
             const canvas = canvasRef.current.getSaveData();
             clear();
             const image = await uploadImage(dataImage);
-            await postFrame({id: uuidv4(), user: username, userImage: `https://joeschmoe.io/api/v1/${avatars[Math.floor(Math.random() * avatars.length)]}`, dataFrame: canvas, dataImage: image, likes: 0});
+            await postFrame({id: uuidv4(), user: username, userImage: `https://joesch.moe/api/v1/${avatars[Math.floor(Math.random() * avatars.length)]}`, dataFrame: canvas, dataImage: image, likes: 0});
             setLoadingSave(false);
             router.reload();
         }
