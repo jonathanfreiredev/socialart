@@ -32,7 +32,6 @@ export default function DrawerSocialArt({canvasRef, width}){
                 },
                 body: JSON.stringify(data),
             });
-            // Throw error with status code in case Fetch API req failed
             if (!res.ok) {
                 throw new Error(res.status);
             }
